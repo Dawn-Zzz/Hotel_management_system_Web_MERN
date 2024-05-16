@@ -1,6 +1,6 @@
 const express = require("express");
 const initRoutes = require("./src/routes/initRoutes");
-// const connectDB = require("./src/config/database");
+const connectDB = require("./src/config/database");
 // const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const app = express();
@@ -38,7 +38,7 @@ app.use(express.urlencoded({ extended: true })); // for form data
 initRoutes(app);
 
 // config database
-// connectDB();
+connectDB();
 
 const server = app.listen(PORT, () => {
   console.log(`Server running on: http://${HOST_NAME}:${PORT}`);

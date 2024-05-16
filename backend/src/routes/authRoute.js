@@ -3,7 +3,7 @@ const authController = require("../controllers/authController");
 // const { checkJWT } = require("../middleware/jwtActions");
 const router = express.Router();
 
-router.get("/register", authController.register);
+router.post("/register", authController.register);
 // router.post("/verifyCode", authController.verifyCode);
 
 // router.post("/sendForgotPassword", authController.sendForgotPassword);
