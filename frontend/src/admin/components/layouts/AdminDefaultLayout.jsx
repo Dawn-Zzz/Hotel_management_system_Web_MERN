@@ -6,10 +6,13 @@ const AdminDefaultLayout = ({ children }) => {
     return (
         <div className="flex">
             <div className="h-screen w-[220px] fixed bg-indigo-600 text-white">
-                <div className="h-16 border-b border-slate-400 mx-6 flex justify-center items-center text-lg font-bold tracking-widest">
+                <Link
+                    to="/admin"
+                    className="h-16 border-b border-slate-400 mx-6 flex justify-center items-center text-lg font-bold tracking-widest"
+                >
                     <i class="fa-solid fa-buildings mr-4 text-[32px]"></i>
                     MPP Hotel
-                </div>
+                </Link>
                 <ul>
                     <li>
                         <Link

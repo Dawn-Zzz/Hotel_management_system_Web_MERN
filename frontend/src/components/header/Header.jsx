@@ -18,7 +18,7 @@ const Header = () => {
             >
                 <div className="">
                     <Link className="btn btn-ghost text-2xl" to="/">
-                        Hotel Name
+                        MPP Hotel
                     </Link>
                 </div>
                 <div className="">
