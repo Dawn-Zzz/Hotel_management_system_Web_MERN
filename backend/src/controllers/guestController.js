@@ -52,7 +52,7 @@ let add = async (req, res) => {
 
   let edit = async (req, res) => {
     try {
-     const { name, email, password, phoneNumber, IDnumber, dateOfBirth, guestCategories} = req.body;
+     const { id, name, phoneNumber, IDnumber, dateOfBirth, guestCategories} = req.body;
 
      if (!name || !phoneNumber || !IDnumber || !dateOfBirth || !guestCategories) {
         throw {
@@ -61,20 +61,38 @@ let add = async (req, res) => {
         };
       }
 
-    let guest = await guestModel.findOne({IDnumber})
-    if (guest) {
+    let guest = await guestModel.findById(id)
+    if (!guest) {
       throw {
         code: 1,
-        message: "Số CCCD đã tồn tại",
+        message: "Khách hàng không tồn tại",
+      };
+    }
+
+    // Kiểm tra xem IDnumber đã tồn tại cho khách hàng khác hay không
+    let existingGuestWithID = await guestModel.findOne({ IDnumber, _id: { $ne: id } });
+    if (existingGuestWithID) {
+      throw {
+        code: 1,
+        message: "Số CCCD đã tồn tại cho khách hàng khác",
+      };
+    }
+
+    // Kiểm tra xem phoneNumber đã tồn tại cho khách hàng khác hay không
+    let existingGuestWithPhone = await guestModel.findOne({ phoneNumber, _id: { $ne: id } });
+    if (existingGuestWithPhone) {
+      throw {
+        code: 1,
+        message: "Số điện thoại đã tồn tại cho khách hàng khác",
       };
     }
 
     // Cập nhật thông tin khách hàng
-    let existingGuest = await guestModel.findOneAndUpdate(
-        { phoneNumber: phoneNumber },
-        { $set: { name, email, password, IDnumber, dateOfBirth, guestCategories }},
-        { new: true }
-      );
+    let updatedGuest = await guestModel.findByIdAndUpdate(
+      id,
+      { $set: { name, phoneNumber, IDnumber, dateOfBirth, guestCategories } },
+      { new: true }
+    );
 
     res.status(200).json({
         code: 0,
@@ -100,14 +118,14 @@ let add = async (req, res) => {
   
       const offset = 12 * (currentPage - 1);
   
-      const users = await guestModel.find(
+      const guest = await guestModel.find(
         
       )
         .limit(12)
         .skip(offset)
         .sort({ createdAt: -1 });
   
-      if (!users || users.length === 0) {
+      if (!guest || guest.length === 0) {
         throw {
           code: 1,
           message: "Không có data nào",
@@ -116,9 +134,9 @@ let add = async (req, res) => {
   
       res.status(200).json({
         code: 0,
-        message: "Tìm kiếm thành công",
+        message: "Lấy dự liệu thành công",
         count: count,
-        data: users,
+        data: guest,
       });
     } catch (error) {
       res.status(200).json({
@@ -148,14 +166,14 @@ let add = async (req, res) => {
   
       const offset = 12 * (currentPage - 1);
   
-      const users = await guestModel.find({
+      const guest = await guestModel.find({
         name: regex,
       })
         .limit(12)
         .skip(offset)
         .sort({ createdAt: -1 });
   
-      if (!users || users.length === 0) {
+      if (!guest || guest.length === 0) {
         throw {
           code: 1,
           message: "Không có data nào",
@@ -166,7 +184,7 @@ let add = async (req, res) => {
         code: 0,
         message: "Tìm kiếm thành công",
         count: count,
-        data: users,
+        data: guest,
       });
     } catch (error) {
       res.status(200).json({
