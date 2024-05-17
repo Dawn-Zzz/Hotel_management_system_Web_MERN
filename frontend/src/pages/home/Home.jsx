@@ -42,7 +42,7 @@ const Home = () => {
                             <img
                                 src={home_2}
                                 alt=""
-                                className="absolute rounded-full w-60 h-60 right-0 border-8 -translate-y-1/2 translate-x-1/2"
+                                className="absolute rounded-full w-60 h-60 right-0 border-8 -translate-y-2/3 translate-x-1/3"
                             />
                         </div>
                     </div>
