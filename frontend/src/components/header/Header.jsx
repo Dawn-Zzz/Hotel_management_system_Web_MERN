@@ -10,10 +10,10 @@ const Header = () => {
     return (
         <div>
             <div
-                className={`navbar bg-base-100 fixed top-0 flex justify-between z-40 text-white transition-all ${
+                className={`navbar bg-base-100 fixed top-0 flex justify-between z-40 text-white transition-all px-4 ${
                     check
-                        ? "py-0 bg-black bg-opacity-50"
-                        : "py-6 bg-transparent"
+                        ? "py-4 bg-black bg-opacity-50 backdrop-blur-sm"
+                        : "py-10 bg-transparent"
                 }`}
             >
                 <div className="">
