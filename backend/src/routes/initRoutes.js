@@ -1,5 +1,5 @@
 const authRoute = require("./authRoute");
-const adminRoute = require("./adminRoute");
+const staffRoute = require("./staffRoute");
 const guestRoute = require("./guestRoute");
 const serviceRoute = require("./serviceRoute");
 // const postRoute = require("./postRoute");
@@ -20,11 +20,12 @@ let initRoutes = (app) => {
   // app.use("/api/message", messageRoutes);
   // app.use("/api/notification", notificationRoute);
 
-  // // Admin
-  app.use("/api/admin", adminRoute);
+  // Staff
+  app.use("/api/staff", staffRoute);
   //Guest
   app.use("/api/guest", guestRoute);
   app.use("/api/service", serviceRoute);
+
   return app;
 };
 

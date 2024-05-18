@@ -1,20 +1,23 @@
 const mongoose = require("mongoose");
 // const { v4: uuidv4 } = require("uuid");
 
-const adminSchema = new mongoose.Schema(
+const staffSchema = new mongoose.Schema(
   {
     // _id: {
     //   type: "String",
     //   default: uuidv4,
     // },
     name: { type: String, required: true },
+    IDnumber: { type: String, required: true, unique: true },
+    dateOfBirth: { type: Date },
+    phoneNumber: { type: String, required: true, unique: true },
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    role: { type: String },
+    role: { type: String, required: true },
   },
   { timestamps: true }
 );
 
-const Admin = mongoose.model("admin", adminSchema);
+const Staff = mongoose.model("staff", staffSchema);
 
-module.exports = Admin;
+module.exports = Staff;

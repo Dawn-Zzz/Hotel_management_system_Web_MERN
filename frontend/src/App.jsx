@@ -8,56 +8,56 @@ import { publicAdminRoutes } from "./routes/AdminRoutes";
 import AdminDefaultLayout from "./admin/components/layouts/AdminDefaultLayout";
 
 function App() {
-    return (
-        <>
-            <BrowserRouter>
-                <Routes>
-                    {publicRoutes.map((route, index) => {
-                        const Page = route.component;
-                        let Layout = DefaultLayout;
-                        if (route.layout) {
-                            Layout = route.Layout;
-                        } else if (route.layout === null) {
-                            Layout = Fragment;
-                        }
-                        return (
-                            <Route
-                                key={index}
-                                path={route.path}
-                                element={
-                                    <Layout>
-                                        <Page />
-                                    </Layout>
-                                }
-                            />
-                        );
-                    })}
-                    {publicAdminRoutes.map((route, index) => {
-                        const Page = route.component;
-                        let Layout = AdminDefaultLayout;
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          {publicRoutes.map((route, index) => {
+            const Page = route.component;
+            let Layout = DefaultLayout;
+            if (route.layout) {
+              Layout = route.Layout;
+            } else if (route.layout === null) {
+              Layout = Fragment;
+            }
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <Layout>
+                    <Page />
+                  </Layout>
+                }
+              />
+            );
+          })}
+          {publicAdminRoutes.map((route, index) => {
+            const Page = route.component;
+            let Layout = AdminDefaultLayout;
 
-                        if (route.layout) {
-                            Layout = route.layout;
-                        } else if (route.layout === null) {
-                            Layout = Fragment;
-                        }
-                        return (
-                            <Route
-                                key={index}
-                                path={route.path}
-                                element={
-                                    <Layout>
-                                        <Page />
-                                    </Layout>
-                                }
-                            />
-                        );
-                    })}
-                </Routes>
-                <Toaster />
-            </BrowserRouter>
-        </>
-    );
+            if (route.layout) {
+              Layout = route.layout;
+            } else if (route.layout === null) {
+              Layout = Fragment;
+            }
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <Layout>
+                    <Page />
+                  </Layout>
+                }
+              />
+            );
+          })}
+        </Routes>
+        <Toaster position="bottom-right" reverseOrder={false} />
+      </BrowserRouter>
+    </>
+  );
 }
 
 export default App;
