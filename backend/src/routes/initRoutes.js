@@ -1,6 +1,7 @@
 const authRoute = require("./authRoute");
 const adminRoute = require("./adminRoute");
 const guestRoute = require("./guestRoute");
+const serviceRoute = require("./serviceRoute");
 // const postRoute = require("./postRoute");
 // const documentRoute = require("./documentRoute");
 // const commentRoute = require("./commentRoute");
@@ -21,8 +22,9 @@ let initRoutes = (app) => {
 
   // // Admin
   app.use("/api/admin", adminRoute);
-//Guest
- app.use("/api/guest", guestRoute);
+  //Guest
+  app.use("/api/guest", guestRoute);
+  app.use("/api/service", serviceRoute);
   return app;
 };
 
