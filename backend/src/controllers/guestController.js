@@ -164,7 +164,7 @@ let viewListGuest = async (req, res) => {
   } catch (error) {
     res.status(200).json({
       code: error.code || 1,
-      message: error.message || "Lỗi: searchAdminRole",
+      message: error.message || "Lỗi: viewListGuest",
     });
   }
 };

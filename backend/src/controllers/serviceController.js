@@ -59,7 +59,7 @@ let add = async (req, res) => {
     }
 
     // Cập nhật thông tin dịch vụ
-    let updatedservice = await serviceModel.findByIdAndUpdate(
+    let updatedService = await serviceModel.findByIdAndUpdate(
       id,
       { $set: { name, price } },
       { new: true }
@@ -112,12 +112,12 @@ let add = async (req, res) => {
     } catch (error) {
       res.status(200).json({
         code: error.code || 1,
-        message: error.message || "Lỗi: searchAdminRole",
+        message: error.message || "Lỗi: viewListService",
       });
     }
   };
 
-  let searchservice = async (req, res) => {
+  let searchService = async (req, res) => {
     try {
       const currentPage = req.params.currentPage || 1;
       const keyword = req.params.keyword || null;
@@ -160,7 +160,7 @@ let add = async (req, res) => {
     } catch (error) {
       res.status(200).json({
         code: error.code || 1,
-        message: error.message || "Lỗi: searchservice",
+        message: error.message || "Lỗi: searchService",
       });
     }
   };
@@ -169,6 +169,6 @@ let add = async (req, res) => {
     add,
     edit,
     viewListService,
-    searchservice
+    searchService
   };
   
