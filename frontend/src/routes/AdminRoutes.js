@@ -17,6 +17,7 @@ import Rooms from "../admin/pages/room/rooms/Rooms";
 import AddService from "../admin/pages/service/AddService";
 import Service from "../admin/pages/service/Service";
 import AddStaff from "../admin/pages/staff/AddStaff";
+import EditStaff from "../admin/pages/staff/EditStaff";
 import Staff from "../admin/pages/staff/Staff";
 
 const publicAdminRoutes = [
@@ -37,6 +38,7 @@ const publicAdminRoutes = [
     { path: "/admin/roomtype/edit/:id", component: EditRoomType },
     //Staff
     { path: "/admin/staff", component: Staff },
+    { path: "/admin/staff/:id", component: EditStaff },
     { path: "/admin/addstaff", component: AddStaff },
     //Invoice
     { path: "/admin/invoice", component: Invoice },

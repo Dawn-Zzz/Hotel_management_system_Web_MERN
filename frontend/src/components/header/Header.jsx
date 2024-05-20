@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 const Header = () => {
     const [check, setCheck] = useState(false);
     document.onscroll = () => {
-        console.log(window.scrollY);
         window.scrollY >= 180 ? setCheck(true) : setCheck(false);
     };
     return (
