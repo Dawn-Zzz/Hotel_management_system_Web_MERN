@@ -33,7 +33,7 @@ const Guest = () => {
         <Loading />
     ) : (
         <div>
-            <div className="text-[32px] font-semibold text-gray-600 mb-8">
+            <div className="text-[40px] font-semibold text-gray-600 mb-8">
                 Guest List
             </div>
             <Link
@@ -81,7 +81,7 @@ const Guest = () => {
                                 Edit
                             </Link>
                             <Link
-                                to={`/admin/guest/edit/${guest._id}`}
+                                to={`/admin/guest/${guest._id}`}
                                 className="text-purple-700 bg-purple-200 py-1 px-4 rounded-full"
                             >
                                 Detail

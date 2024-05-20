@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Registration = () => {
     return (
         <div>
-            <div className="text-[40px] font-semibold text-gray-600 mb-8">
+            <div className="text-[40px] font-semibold text-gray-600 mb-4">
                 Registration Form List
             </div>
             <div>
@@ -17,8 +17,7 @@ const Registration = () => {
                 <div className="dropdown">
                     <div
                         tabIndex={0}
-                        role="button"
-                        className="btn m-1 border-indigo-600 text-indigo-600"
+                        className=" text-indigo-600 px-4 py-3 cursor-pointer font-bold"
                     >
                         Room Status
                     </div>

@@ -58,7 +58,9 @@ const Staff = () => {
                     <th className="text-gray-500 font-medium py-4">
                         Job Title
                     </th>
-                    <th className="text-gray-500 font-medium">Action</th>
+                    <th className="text-gray-500 font-medium text-center">
+                        Action
+                    </th>
                 </tr>
                 {data.map((staff) => (
                     <tr key={staff._id} className="border-b">
@@ -71,12 +73,18 @@ const Staff = () => {
                         </td>
                         <td className="py-4 text-gray-500">{staff.IDnumber}</td>
                         <td className="py-4 text-gray-500">{staff.role}</td>
-                        <td className="py-4 text-gray-500">
+                        <td className="py-4 text-gray-500 text-center">
                             <Link
-                                to={`/admin/staff/${staff._id}`}
-                                className="text-indigo-600 hover:underline"
+                                to={`/admin/staff/edit/${staff._id}`}
+                                className="text-purple-700 bg-purple-200 py-1 px-4 rounded-full mr-2"
                             >
                                 Edit
+                            </Link>
+                            <Link
+                                to={`/admin/staff/${staff._id}`}
+                                className="text-purple-700 bg-purple-200 py-1 px-4 rounded-full"
+                            >
+                                Detail
                             </Link>
                         </td>
                     </tr>

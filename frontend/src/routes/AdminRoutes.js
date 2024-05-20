@@ -19,6 +19,7 @@ import Service from "../admin/pages/service/Service";
 import AddStaff from "../admin/pages/staff/AddStaff";
 import EditStaff from "../admin/pages/staff/EditStaff";
 import Staff from "../admin/pages/staff/Staff";
+import StaffDetail from "../admin/pages/staff/StaffDetail";
 
 const publicAdminRoutes = [
     { path: "/admin", component: AdminHome },
@@ -38,7 +39,8 @@ const publicAdminRoutes = [
     { path: "/admin/roomtype/edit/:id", component: EditRoomType },
     //Staff
     { path: "/admin/staff", component: Staff },
-    { path: "/admin/staff/:id", component: EditStaff },
+    { path: "/admin/staff/:id", component: StaffDetail },
+    { path: "/admin/staff/edit/:id", component: EditStaff },
     { path: "/admin/addstaff", component: AddStaff },
     //Invoice
     { path: "/admin/invoice", component: Invoice },

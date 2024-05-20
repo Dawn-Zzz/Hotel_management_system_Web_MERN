@@ -1,14 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Banner from "../../components/banner/Banner";
 import home_3 from "../../assets/images/home_3.jpg";
 import home_4 from "../../assets/images/home_4.jpg";
 import RoomTag from "../../components/roomTag/RoomTag";
 
 const Room = () => {
+    const today = new Date().toISOString().split("T")[0];
+    const getNextDay = (date) => {
+        if (!date) return "";
+        const nextDay = new Date(date);
+        nextDay.setDate(nextDay.getDate() + 1);
+        return nextDay.toISOString().split("T")[0];
+    };
+
+    const [checkin, setCheckin] = useState("");
+    const [checkout, setCheckout] = useState("");
+
+    const handleCheckin = (e) => {
+        setCheckin(e.target.value);
+        setCheckout(getNextDay(checkin));
+    };
+
+    useEffect(() => {
+        if (checkin) {
+            const nextDay = getNextDay(checkin);
+            setCheckout(nextDay);
+        }
+    }, [checkin]);
     return (
         <div className="w-full bg-white flex flex-col items-center">
             <Banner title="Rooms" des="ROOM." />
-            <div className="flex w-3/5 flex-wrap justify-between my-16">
+            <div className="relative w-3/5 bg-white shadow-xl p-8 rounded-xl -top-[70px] flex items-end justify-between">
+                <div className="w-2/5">
+                    <p className="mb-2 font-semibold">Check In</p>
+                    <input
+                        type="date"
+                        className="border-2 w-full px-4 py-2 rounded-md outline-none"
+                        onChange={handleCheckin}
+                        min={today}
+                    />
+                </div>
+                <div className="w-2/5">
+                    <p className="mb-2 font-semibold">Check Out</p>
+                    <input
+                        type="date"
+                        className={`border-2 w-full px-4 py-2 rounded-md outline-none ${
+                            !checkin ? "opacity-50 cursor-default" : ""
+                        }`}
+                        min={getNextDay(checkin)}
+                        onClick={(e) => {
+                            if (!checkin) {
+                                e.preventDefault();
+                            }
+                        }}
+                        onChange={(e) => {
+                            setCheckout(e.target.value);
+                        }}
+                        value={checkout}
+                    />
+                </div>
+                <button className="w-1/6 bg-blue-600 text-white h-3/5 rounded-lg">
+                    Check
+                </button>
+            </div>
+            <div className="flex w-3/5 flex-wrap justify-between mb-16">
                 <RoomTag
                     img={home_3}
                     name="Family"

@@ -358,7 +358,7 @@ let getById = async (req, res) => {
     } catch (error) {
         res.status(200).json({
             code: error.code || 1,
-            message: error.message || "Lỗi: searchGuest",
+            message: error.message,
         });
     }
 };
