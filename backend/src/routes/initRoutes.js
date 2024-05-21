@@ -3,6 +3,7 @@ const staffRoute = require("./staffRoute");
 const guestRoute = require("./guestRoute");
 const serviceRoute = require("./serviceRoute");
 const roomTypeRoute = require("./roomTypeRoute");
+const roomRoute = require("./roomRoute");
 // const postRoute = require("./postRoute");
 // const documentRoute = require("./documentRoute");
 // const commentRoute = require("./commentRoute");
@@ -27,6 +28,8 @@ let initRoutes = (app) => {
   app.use("/api/guest", guestRoute);
   //Service
   app.use("/api/service", serviceRoute);
+  //Roomtype
+  app.use("/api/room", roomRoute);
   //Roomtype
   app.use("/api/roomtype", roomTypeRoute);
   return app;

@@ -7,8 +7,9 @@ const roomSchema = new mongoose.Schema(
     //   type: "String",
     //   default: uuidv4,
     // },
-    numberRoom: { type: String, required: true },
+    roomNumber: { type: String, required: true },
     status: { type: String, required: true },
+    isFree: { type: Boolean, required: true },
     roomType: { type: mongoose.Schema.Types.ObjectId, ref: "RoomType" },
   },
   { timestamps: true }
