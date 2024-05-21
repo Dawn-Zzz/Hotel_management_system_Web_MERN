@@ -40,46 +40,47 @@ let add = async (req, res) => {
 };
 
 let edit = async (req, res) => {
-  try {
-    const { id, name, price, images, capacity } = req.body;
+    try {
+        data = req.body;
+        const id = req.params.id;
 
-    if (!name || !price || !images || !capacity) {
-      throw {
-        code: 1,
-        message: "Không được bỏ trống thông tin",
-      };
+        if (!data.name || !data.price || !data.images || !data.capacity) {
+            throw {
+                code: 1,
+                message: "Không được bỏ trống thông tin",
+            };
+        }
+
+        // Kiểm tra xem tên loại phòng đã tồn tại cho một loại phòng khác chưa
+        let existingRoomType = await roomtypeModel.findOne({
+            name: data.name,
+            _id: { $ne: id },
+        });
+        if (existingRoomType) {
+            throw {
+                code: 1,
+                message: "Tên loại phòng đã tồn tại cho một loại phòng khác",
+            };
+        }
+
+        // Cập nhật thông tin loại phòng
+        let updatedRoomType = await roomtypeModel.findByIdAndUpdate(
+            id,
+            { $set: { name: data.name, price: data.price, images: data.images, capacity: data.capacity } },
+            { new: true }
+        );
+
+        res.status(200).json({
+            code: 0,
+            message: "Chỉnh sửa thông tin loại phòng thành công",
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(200).json({
+            code: error.code || 1,
+            message: error.message || "Đã có lỗi xảy ra: Logout",
+        });
     }
-
-    // Kiểm tra xem tên loại phòng đã tồn tại cho một loại phòng khác chưa
-    let existingRoomType = await roomtypeModel.findOne({
-      name,
-      _id: { $ne: id },
-    });
-    if (existingRoomType) {
-      throw {
-        code: 1,
-        message: "Tên loại phòng đã tồn tại cho một loại phòng khác",
-      };
-    }
-
-    // Cập nhật thông tin loại phòng
-    let updatedRoomType = await roomtypeModel.findByIdAndUpdate(
-      id,
-      { $set: { name, price, images, capacity } },
-      { new: true }
-    );
-
-    res.status(200).json({
-      code: 0,
-      message: "Chỉnh sửa thông tin loại phòng thành công",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(200).json({
-      code: error.code || 1,
-      message: error.message || "Đã có lỗi xảy ra: Logout",
-    });
-  }
 };
 
 let deleteRoomType = async (req, res) => {

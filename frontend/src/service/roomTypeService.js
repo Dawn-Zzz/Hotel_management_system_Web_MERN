@@ -11,3 +11,8 @@ export const addNewRoomType = (data) => {
 export const viewRoomtype = (id) => {
   return apiBackend.get(`/api/roomtype/${id}`);
 };
+
+//Edit roomtype
+export const editRoomType = (id,data) => {
+    return apiBackend.post(`/api/roomtype/edit/${id}`, data);
+};

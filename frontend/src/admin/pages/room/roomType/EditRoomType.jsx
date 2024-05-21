@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { storage } from "../../../../firebase";
 import {
   getStorage,
@@ -8,15 +8,24 @@ import {
   getDownloadURL,
   uploadBytes,
 } from "firebase/storage";
-import { viewRoomtype } from "../../../../service/roomTypeService";
+import { editRoomType, viewRoomtype } from "../../../../service/roomTypeService";
+import toast from "react-hot-toast";
 
 const EditRoomType = () => {
+  const nav = useNavigate();
   const { id } = useParams();
   const inputRef = useRef(null);
   const [image, setImage] = useState([]);
   const [imagesObj, setImagesObj] = useState();
-  const [data, setData] = useState([]);
+//   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [roomType, setRoomType] = useState({
+    name: "",
+    price: "",
+    images: "",
+    capacity: "",
+  });
   useEffect(() => {
     getData();
   }, []);
@@ -24,10 +33,8 @@ const EditRoomType = () => {
   const getData = async () => {
     try {
       setIsLoading(true);
-      const data = await viewRoomtype(id);
-      console.log(data);
+      setRoomType(await viewRoomtype(id));
       // if (data?.code === 0) {
-      setData(data);
       // } else {
       //     setData([]);
       // }
@@ -36,6 +43,52 @@ const EditRoomType = () => {
       console.error(error);
     }
   };
+
+  const editData = async () => {
+    console.log(roomType);
+    try {
+      setIsLoading(true);
+      if (imagesObj) {
+        for (let i = 0; i < imagesObj.length; i++) {
+            const imageRef = ref(
+                storage,
+                `/images/${imagesObj[i].name}`
+            );
+
+            try {
+                await uploadBytes(imageRef, imagesObj[i]);
+
+                roomType.images = await getDownloadURL(imageRef);
+
+                console.log("Upload success:", roomType.images);
+            } catch (error) {
+                console.error("Upload error:", error);
+            }
+        }
+    }
+      const data = await editRoomType(id, roomType);
+      console.log(data);
+      if (data.code === 0) {
+        toast.success(data.message);
+        nav("/admin/roomtype");
+      } else {
+        toast.error(data.message);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setRoomType({
+      ...roomType,
+      [name]: value,
+    });
+  };
+
   const selectFiles = (e) => {
     inputRef.current.click();
   };
@@ -142,7 +195,9 @@ const EditRoomType = () => {
           <p className="text-gray-500">Room Category Name</p>
           <input
             type="text"
-            defaultValue={data.name}
+            name="name"
+            defaultValue={roomType.name}
+            onChange={handleChange}
             className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
           />
         </div>
@@ -150,7 +205,9 @@ const EditRoomType = () => {
           <p className="text-gray-500">Room Rate</p>
           <input
             type="text"
-            defaultValue={data.price}
+            name="price"
+            defaultValue={roomType.price}
+            onChange={handleChange}
             className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
           />
         </div>
@@ -158,7 +215,9 @@ const EditRoomType = () => {
           <p className="text-gray-500">Capacity</p>
           <input
             type="text"
-            defaultValue={data.capacity}
+            name="capacity"
+            defaultValue={roomType.capacity}
+            onChange={handleChange}
             className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
           />
         </div>
@@ -200,16 +259,19 @@ const EditRoomType = () => {
                 className="h-full w-full"
               ></img>
             ) : (
-              <img src={data.images} className="h-full w-full"></img>
+              <img src={roomType.images} className="h-full w-full"></img>
             )}
           </div>
         </div>
         <div className="flex flex-col">
           <button
+            onClick={() => {
+              editData();
+            }}
             className="rounded-lg bg-indigo-600 text-white px-4 py-2 mt-4 w-20"
-            onClick={handleSubmit}
+            disabled={isLoading}
           >
-            Create
+            Submit
           </button>
           <Link
             to="/admin/roomtype"
