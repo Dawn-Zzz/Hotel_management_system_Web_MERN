@@ -7,7 +7,7 @@ router.post("/login", staffController.login);
 router.post("/refresh", checkAdminJWT, staffController.refresh);
 router.post("/logout", staffController.logout);
 router.post("/add", staffController.add);
-router.post("/edit", staffController.edit);
+router.post("/edit/:id", staffController.edit);
 router.get("/viewListStaff/:currentPage", staffController.viewListStaff);
 router.get("/searchStaff/:currentPage&:keyword", staffController.searchStaff);
 router.get("/:id", staffController.getById);

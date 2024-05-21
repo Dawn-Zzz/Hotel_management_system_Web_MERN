@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { viewStaff } from "../../../service/staffService";
-import { Link, useParams } from "react-router-dom";
+import { editStaff, viewStaff } from "../../../service/staffService";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../components/loading/Loading";
+import toast from "react-hot-toast";
 
 const EditStaff = () => {
+    const nav = useNavigate();
     const { id } = useParams();
-    const [data, setData] = useState([]);
+    // const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [staff, setStaff] = useState({
         IDnumber: "",
         name: "",
         dateOfBirth: "",
-        role: "Nhân viên lễ tân",
+        role: "",
         phoneNumber: "",
         username: "",
         password: "",
@@ -24,10 +26,8 @@ const EditStaff = () => {
     const getData = async () => {
         try {
             setIsLoading(true);
-            const data = await viewStaff(id);
-            console.log(data);
+            setStaff(await viewStaff(id));
             // if (data?.code === 0) {
-            setData(data);
             // } else {
             //     setData([]);
             // }
@@ -37,6 +37,26 @@ const EditStaff = () => {
         }
     };
 
+    const editData = async () => {
+        console.log(staff);
+        try {
+          setIsLoading(true);
+          const data = await editStaff(id,staff);
+          console.log(data);
+          if (data.code === 0) {
+            
+            toast.success(data.message);
+            nav("/admin/staff");
+          } else {
+            toast.error(data.message);
+          }
+          setIsLoading(false);
+        } catch (error) {
+          console.error(error);
+          setIsLoading(false);
+        }
+      };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setStaff({
@@ -44,6 +64,18 @@ const EditStaff = () => {
             [name]: value,
         });
     };
+
+    const formatDate = (date) => {
+        const d = new Date(date);
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        const year = d.getFullYear();
+        return `${year}-${month}-${day}`;
+      };
+    
+      const formattedDateOfBirth = staff.dateOfBirth
+        ? formatDate(staff.dateOfBirth)
+        : "";
     return isLoading ? (
         <Loading />
     ) : (
@@ -57,7 +89,7 @@ const EditStaff = () => {
                     <input
                         type="text"
                         name="IDnumber"
-                        value={data.IDnumber}
+                        defaultValue={staff.IDnumber}
                         onChange={handleChange}
                         className="w-3/4 outline-none rounded-lg p-1 border-gray-300 border mt-2"
                     />
@@ -67,7 +99,7 @@ const EditStaff = () => {
                     <input
                         type="text"
                         name="name"
-                        value={data.name}
+                        defaultValue={staff.name}
                         onChange={handleChange}
                         className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
                     />
@@ -77,7 +109,7 @@ const EditStaff = () => {
                     <input
                         type="date"
                         name="dateOfBirth"
-                        value={data.dateOfBirth}
+                        defaultValue={formattedDateOfBirth}
                         onChange={handleChange}
                         className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
                     />
@@ -86,7 +118,7 @@ const EditStaff = () => {
                     <p className="text-gray-500">Job Title</p>
                     <select
                         name="role"
-                        value={data.role}
+                        defaultValue={staff.role}
                         onChange={handleChange}
                         className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
                     >
@@ -106,7 +138,7 @@ const EditStaff = () => {
                     <input
                         type="text"
                         name="phoneNumber"
-                        value={data.phoneNumber}
+                        defaultValue={staff.phoneNumber}
                         onChange={handleChange}
                         className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
                     />
@@ -116,7 +148,7 @@ const EditStaff = () => {
                     <input
                         type="text"
                         name="username"
-                        value={data.username}
+                        defaultValue={staff.username}
                         onChange={handleChange}
                         className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
                     />
@@ -126,7 +158,7 @@ const EditStaff = () => {
                     <input
                         type="text"
                         name="password"
-                        value={data.password}
+                        defaultValue={staff.password}
                         onChange={handleChange}
                         className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
                     />
@@ -134,7 +166,7 @@ const EditStaff = () => {
                 <div className="flex flex-col">
                     <button
                         onClick={() => {
-                            addData();
+                            editData();
                         }}
                         className="rounded-lg bg-indigo-600 text-white px-4 py-2 mt-4 w-20"
                         disabled={isLoading}

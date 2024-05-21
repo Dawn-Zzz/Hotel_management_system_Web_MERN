@@ -179,25 +179,16 @@ let add = async (req, res) => {
 
 let edit = async (req, res) => {
     try {
-        const {
-            id,
-            name,
-            username,
-            password,
-            phoneNumber,
-            IDnumber,
-            dateOfBirth,
-            role,
-        } = req.body;
-
+        data = req.body;
+        const id = req.params.id;
         if (
-            !name ||
-            !username ||
-            !password ||
-            !phoneNumber ||
-            !IDnumber ||
-            !dateOfBirth ||
-            !role
+            !data.name ||
+            !data.username ||
+            !data.password ||
+            !data.phoneNumber ||
+            !data.IDnumber ||
+            !data.dateOfBirth ||
+            !data.role
         ) {
             throw {
                 code: 1,
@@ -215,7 +206,7 @@ let edit = async (req, res) => {
 
         // Kiểm tra xem IDnumber đã tồn tại cho nhân viên khác hay không
         let existingStaffWithID = await staffModel.findOne({
-            IDnumber,
+            IDnumber: data.IDnumber,
             _id: { $ne: id },
         });
         if (existingStaffWithID) {
@@ -227,7 +218,7 @@ let edit = async (req, res) => {
 
         // Kiểm tra xem phoneNumber đã tồn tại cho nhân viên khác hay không
         let existingStaffWithPhone = await staffModel.findOne({
-            phoneNumber,
+            phoneNumber: data.phoneNumber,
             _id: { $ne: id },
         });
         if (existingStaffWithPhone) {
@@ -242,13 +233,13 @@ let edit = async (req, res) => {
             id,
             {
                 $set: {
-                    name,
-                    username,
-                    password,
-                    phoneNumber,
-                    IDnumber,
-                    dateOfBirth,
-                    role,
+                    name: data.name,
+                    username: data.username,
+                    password: data.password,
+                    phoneNumber: data.phoneNumber,
+                    IDnumber: data.IDnumber,
+                    dateOfBirth: data.dateOfBirth,
+                    role: data.role,
                 },
             },
             { new: true }

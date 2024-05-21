@@ -14,3 +14,8 @@ export const viewStaff = (id) => {
 export const addNewStaff = (data) => {
     return apiBackend.post(`/api/staff/add`, data);
 };
+
+//Edit staff
+export const editStaff = (id,data) => {
+    return apiBackend.post(`/api/staff/edit/${id}`, data);
+  };
