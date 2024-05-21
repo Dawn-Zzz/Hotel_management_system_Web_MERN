@@ -7,15 +7,17 @@ import toast from "react-hot-toast";
 const EditGuest = () => {
   const nav = useNavigate();
   const { id } = useParams();
-  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [guest, setGuest] = useState({
     name: "",
+    email: "",
+    password: "",
     phoneNumber: "",
     IDnumber: "",
     dateOfBirth: "",
     guestCategories: "",
   });
+
   useEffect(() => {
     getData();
   }, []);
@@ -23,15 +25,8 @@ const EditGuest = () => {
   const getData = async () => {
     try {
       setIsLoading(true);
-      const data = await viewGuest(id);
-      console.log(data);
-      guest.name = data.name;
-      guest.IDnumber = data.IDnumber;
-      guest.dateOfBirth = data.dateOfBirth;
-      guest.phoneNumber = data.phoneNumber;
-      guest.guestCategories = data.guestCategories;
+      setGuest(await viewGuest(id));
       // if (data?.code === 0) {
-      setData(data);
       // } else {
       //     setData([]);
       // }
@@ -45,10 +40,9 @@ const EditGuest = () => {
     console.log(guest);
     try {
       setIsLoading(true);
-      const data = await editGuest(id,guest);
+      const data = await editGuest(id, guest);
       console.log(data);
       if (data.code === 0) {
-        
         toast.success(data.message);
         nav("/admin/guest");
       } else {
@@ -68,6 +62,7 @@ const EditGuest = () => {
       [name]: value,
     });
   };
+
   return isLoading ? (
     <Loading />
   ) : (
@@ -81,7 +76,7 @@ const EditGuest = () => {
           <input
             type="text"
             name="IDnumber"
-            defaultValue={data.IDnumber}
+            defaultValue={guest.IDnumber}
             onChange={handleChange}
             className="w-3/4 outline-none rounded-lg p-1 border-gray-300 border mt-2"
           />
@@ -91,7 +86,7 @@ const EditGuest = () => {
           <input
             type="text"
             name="name"
-            defaultValue={data.name}
+            defaultValue={guest.name}
             onChange={handleChange}
             className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
           />
@@ -103,7 +98,7 @@ const EditGuest = () => {
             onChange={handleChange}
             id=""
             className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
-            defaultValue={data.guestCategories}
+            defaultValue={guest.guestCategories}
           >
             <option value="Normal">Normal</option>
             <option value="Vip">Vip</option>
@@ -114,7 +109,7 @@ const EditGuest = () => {
           <input
             type="date"
             name="dateOfBirth"
-            defaultValue={data.dateOfBirth}
+            defaultValue={guest.dateOfBirth}
             onChange={handleChange}
             className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
           />
@@ -124,18 +119,19 @@ const EditGuest = () => {
           <input
             type="text"
             name="phoneNumber"
-            defaultValue={data.phoneNumber}
+            defaultValue={guest.phoneNumber}
             onChange={handleChange}
             className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
           />
         </div>
         <div className="flex flex-col">
-          <button onClick={() => {
+          <button
+            onClick={() => {
               editData();
             }}
             className="rounded-lg bg-indigo-600 text-white px-4 py-2 mt-4 w-20"
             disabled={isLoading}
-            >
+          >
             Submit
           </button>
           <Link

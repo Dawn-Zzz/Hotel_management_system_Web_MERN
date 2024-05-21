@@ -8,9 +8,9 @@ const serviceSchema = new mongoose.Schema(
     //   default: uuidv4,
     // },
     name: { type: String, required: true },
-    price: { type: Number }
+    price: { type: Number, required: true },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("service", serviceSchema);
+module.exports = mongoose.model("Service", serviceSchema);

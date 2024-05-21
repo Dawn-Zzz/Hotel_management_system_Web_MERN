@@ -18,6 +18,6 @@ const staffSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Staff = mongoose.model("staff", staffSchema);
+const Staff = mongoose.model("Staff", staffSchema);
 
 module.exports = Staff;

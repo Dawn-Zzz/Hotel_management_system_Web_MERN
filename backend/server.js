@@ -10,7 +10,7 @@ const cors = require("cors");
 // const path = require("path"); // Để xử lý đường dẫn tệp
 
 // Cấu hình các tệp tĩnh từ thư mục uploads
-// app.use(express.static("uploads/images"));
+app.use(express.static("uploads/images"));
 // app.use(express.static("uploads/files"));
 
 const PORT = process.env.PORT || 3001;
