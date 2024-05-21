@@ -8,7 +8,7 @@ const guestSchema = new mongoose.Schema(
     //   default: uuidv4,
     // },
     name: { type: String, required: true },
-    email: { type: String, unique: true },
+    email: { type: String, unique: true , sparse: true},
     password: { type: String },
     phoneNumber: { type: String, required: true, unique: true},
     IDnumber: { type: String, unique: true},

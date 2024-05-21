@@ -9,3 +9,13 @@ export const viewListGuest = (currentPage) => {
 export const viewGuest = (id) => {
     return apiBackend.get(`/api/guest/${id}`);
 };
+
+//Add new guest
+export const addNewGuest = (data) => {
+  return apiBackend.post(`/api/guest/add`, data);
+};
+
+//Edit guest
+export const editGuest = (id,data) => {
+  return apiBackend.post(`/api/guest/edit/${id}`, data);
+};

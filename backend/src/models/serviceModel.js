@@ -8,7 +8,7 @@ const serviceSchema = new mongoose.Schema(
     //   default: uuidv4,
     // },
     name: { type: String, required: true },
-    price: { type: String }
+    price: { type: Number }
   },
   { timestamps: true }
 );

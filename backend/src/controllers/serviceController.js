@@ -3,15 +3,15 @@ const serviceModel = require("../models/serviceModel");
 
 let add = async (req, res) => {
     try {
-        const { name, price} = req.body;
-        if (!name || !price) {
+        const data = req.body;
+        if (!data.name || !data.price) {
             throw {
               code: 1,
               message: "Không được bỏ trống thông tin",
             };
           }
       // kiểm tra tên dịch vụ đã tồn tại chưa
-      let service = await serviceModel.findOne({name})
+      let service = await serviceModel.findOne({name: data.name})
 
       if (service) {
         throw {
@@ -21,8 +21,8 @@ let add = async (req, res) => {
       }
   
         service = await serviceModel.create({
-            name,
-            price
+            name: data.name,
+            price: data.price
         })
 
         res.status(200).json({
