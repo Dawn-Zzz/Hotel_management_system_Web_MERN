@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
+import Loading from "../../components/loading/Loading";
 import Banner from "../../components/banner/Banner";
 import home_3 from "../../assets/images/home_3.jpg";
 import home_4 from "../../assets/images/home_4.jpg";
 import RoomTag from "../../components/roomTag/RoomTag";
+import { viewListRoomType } from "../../service/roomTypeService";
 
 const Room = () => {
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [checkin, setCheckin] = useState("");
+    const [checkout, setCheckout] = useState("");
+    const [bedQuantity, setBedQuantity] = useState(0);
+    const [bedType, setBedType] = useState("");
+
     const today = new Date().toISOString().split("T")[0];
     const getNextDay = (date) => {
         if (!date) return "";
@@ -13,8 +22,28 @@ const Room = () => {
         return nextDay.toISOString().split("T")[0];
     };
 
-    const [checkin, setCheckin] = useState("");
-    const [checkout, setCheckout] = useState("");
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const getData = async () => {
+        try {
+            setIsLoading(true);
+            const data = await viewListRoomType(1);
+            console.log(data);
+            if (data?.code === 0) {
+                setData(data?.data);
+            } else {
+                setData([]);
+            }
+            setIsLoading(false);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    data.map((d) => {
+        console.log(d);
+    });
 
     const handleCheckin = (e) => {
         setCheckin(e.target.value);
@@ -27,7 +56,30 @@ const Room = () => {
             setCheckout(nextDay);
         }
     }, [checkin]);
-    return (
+
+    useEffect(() => {
+        data.map((room) => {
+            if (
+                room.name == "Family" ||
+                room.name == "Superior" ||
+                room.name == "Family Suite"
+            ) {
+                setBedQuantity(2);
+            } else {
+                setBedQuantity(1);
+            }
+            if (room.name == "Family" || room.name == "Superior") {
+                setBedType("Single Bed");
+            } else if (room.name == "Suite") {
+                setBedType("Big Twin Bed");
+            } else {
+                setBedType("Twin Bed");
+            }
+        });
+    });
+    return isLoading ? (
+        <Loading />
+    ) : (
         <div className="w-full bg-white flex flex-col items-center">
             <Banner title="Rooms" des="ROOM." />
             <div className="relative w-3/5 bg-white shadow-xl p-8 rounded-xl -top-[70px] flex items-end justify-between">
@@ -64,24 +116,14 @@ const Room = () => {
                 </button>
             </div>
             <div className="flex w-3/5 flex-wrap justify-between mb-16">
-                <RoomTag
-                    img={home_3}
-                    name="Family"
-                    price="750000"
-                    bed="2 Single Bed"
-                />
-                <RoomTag
-                    img={home_3}
-                    name="Family"
-                    price="750000"
-                    bed="2 Single Bed"
-                />
-                <RoomTag
-                    img={home_3}
-                    name="Family"
-                    price="750000"
-                    bed="2 Single Bed"
-                />
+                {data.map((room) => (
+                    <RoomTag
+                        img={room.images}
+                        name={room.name}
+                        price={room.price}
+                        bed={bedQuantity + " " + bedType}
+                    />
+                ))}
             </div>
             <div className="flex flex-col items-center bg-slate-100 pt-12 pb-16 w-full">
                 <p className="text-[52px] font-serif font-semibold">

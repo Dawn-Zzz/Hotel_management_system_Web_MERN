@@ -32,7 +32,7 @@ const publicAdminRoutes = [
     { path: "/admin/guest/edit/:id", component: EditGuest },
     //Room
     { path: "/admin/rooms", component: Rooms },
-    { path: "/admin/rooms/detail", component: RoomDetail },
+    { path: "/admin/rooms/:id", component: RoomDetail },
     { path: "/admin/rooms/add", component: AddRoom },
     //RoomType
     { path: "/admin/roomtype", component: RoomType },

@@ -14,6 +14,6 @@ router.get("/viewListRoom/:currentPage", roomController.viewListRoom);
 //   "/searchRoomType/:currentPage&:keyword",
 //   roomTypeController.searchRoomType
 // );
-// router.get("/:id", roomTypeController.getById);
+router.get("/:id", roomController.getById);
 
 module.exports = router;

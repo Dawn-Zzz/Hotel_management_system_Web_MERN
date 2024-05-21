@@ -3,7 +3,7 @@ import React from "react";
 const RoomTag = ({ img, name, price, bed }) => {
     return (
         <div className="w-[32%] shadow-xl">
-            <img src={img} alt="" />
+            <img src={img} alt="" className="h-[280px] w-full" />
             <div className="p-4">
                 <div className="flex justify-between items-center">
                     <p className="font-bold text-2xl">{name}</p>

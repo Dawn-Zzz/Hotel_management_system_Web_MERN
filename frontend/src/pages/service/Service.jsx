@@ -14,13 +14,15 @@ const Service = () => {
                 title="Services"
                 des="EXPERIENCE LUXURY AND COMFORT AT OUR HOTEL."
             />
-            <ServiceTag
-                reverse={false}
-                thumb={service1}
-                title="Our Restaurant"
-                name="Dining & Drinks"
-                des="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."
-            />
+            <div className="w-3/4">
+                <ServiceTag
+                    reverse={false}
+                    thumb={service1}
+                    title="Our Restaurant"
+                    name="Dining & Drinks"
+                    des="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."
+                />
+            </div>
 
             <div className="flex flex-col items-center mt-16 bg-slate-100 pt-12 pb-16 w-full">
                 <p className="text-[52px] font-serif font-semibold">
