@@ -7,15 +7,17 @@ import toast from "react-hot-toast";
 const EditGuest = () => {
   const nav = useNavigate();
   const { id } = useParams();
-  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [guest, setGuest] = useState({
     name: "",
+    email: "",
+    password: "",
     phoneNumber: "",
     IDnumber: "",
     dateOfBirth: "",
     guestCategories: "",
   });
+
   useEffect(() => {
     getData();
   }, []);
@@ -23,15 +25,8 @@ const EditGuest = () => {
   const getData = async () => {
     try {
       setIsLoading(true);
-      const data = await viewGuest(id);
-      console.log(data);
-      guest.name = data.name;
-      guest.IDnumber = data.IDnumber;
-      guest.dateOfBirth = data.dateOfBirth;
-      guest.phoneNumber = data.phoneNumber;
-      guest.guestCategories = data.guestCategories;
+      setGuest(await viewGuest(id));
       // if (data?.code === 0) {
-      setData(data);
       // } else {
       //     setData([]);
       // }

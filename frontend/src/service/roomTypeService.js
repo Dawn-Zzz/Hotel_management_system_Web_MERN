@@ -13,6 +13,6 @@ export const viewRoomtype = (id) => {
 };
 
 //Edit roomtype
-export const editRoomType = (id,data) => {
-    return apiBackend.post(`/api/roomtype/edit/${id}`, data);
+export const editRoomType = (id, data) => {
+  return apiBackend.post(`/api/roomtype/edit/${id}`, data);
 };
