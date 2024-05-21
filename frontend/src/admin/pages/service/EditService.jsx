@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { viewService } from "../../../service/serviceService";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { editService, viewService } from "../../../service/serviceService";
 import Loading from "../../../components/loading/Loading";
+import toast from "react-hot-toast";
 
 const EditService = () => {
+    const nav = useNavigate();
     const { id } = useParams();
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [service, setService] = useState({
+        name: "",
+        price: "",
+    });
     useEffect(() => {
         getData();
     }, []);
@@ -14,18 +20,40 @@ const EditService = () => {
     const getData = async () => {
         try {
             setIsLoading(true);
-            const data = await viewService(id);
-            console.log(data);
-            // if (data?.code === 0) {
-            setData(data);
-            // } else {
-            //     setData([]);
-            // }
+            setService(await viewService(id));
             setIsLoading(false);
         } catch (error) {
             console.error(error);
         }
     };
+
+    const editData = async () => {
+        console.log(service);
+        try {
+            setIsLoading(true);
+            const data = await editService(id, service);
+            console.log(data);
+            if (data.code === 0) {
+                toast.success(data.message);
+                nav("/admin/service");
+            } else {
+                toast.error(data.message);
+            }
+            setIsLoading(false);
+        } catch (error) {
+            console.error(error);
+            setIsLoading(false);
+        }
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setService({
+            ...service,
+            [name]: value,
+        });
+    };
+
     return isLoading ? (
         <Loading />
     ) : (
@@ -38,9 +66,9 @@ const EditService = () => {
                     <p className="text-gray-500">Service Name</p>
                     <input
                         type="text"
-                        name="IDnumber"
-                        defaultValue={data.name}
-                        // onChange={handleChange}
+                        name="name"
+                        defaultValue={service.name}
+                        onChange={handleChange}
                         className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
                     />
                 </div>
@@ -49,21 +77,21 @@ const EditService = () => {
                     <p className="text-gray-500">Service Price</p>
                     <input
                         type="text"
-                        name="IDnumber"
-                        defaultValue={data.price}
-                        // onChange={handleChange}
+                        name="price"
+                        defaultValue={service.price}
+                        onChange={handleChange}
                         className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
                     />
                 </div>
                 <div className="flex flex-col">
                     <button
                         onClick={() => {
-                            addData();
+                            editData();
                         }}
                         className="rounded-lg bg-indigo-600 text-white px-4 py-2 mt-4 w-20"
                         // disabled={isLoading}
                     >
-                        Create
+                        Submit
                     </button>
                     <Link
                         to="/admin/service"

@@ -39,9 +39,10 @@ let add = async (req, res) => {
 
 let edit = async (req, res) => {
     try {
-        const { id, name, price } = req.body;
+        data = req.body;
+        const id = req.params.id;
 
-        if (!name || !price) {
+        if (!data.name || !data.price) {
             throw {
                 code: 1,
                 message: "Không được bỏ trống thông tin",
@@ -50,7 +51,7 @@ let edit = async (req, res) => {
 
         // Kiểm tra xem tên dịch vụ đã tồn tại cho một dịch vụ khác chưa
         let existingService = await serviceModel.findOne({
-            name,
+            name: data.name,
             _id: { $ne: id },
         });
         if (existingService) {
@@ -63,7 +64,7 @@ let edit = async (req, res) => {
         // Cập nhật thông tin dịch vụ
         let updatedService = await serviceModel.findByIdAndUpdate(
             id,
-            { $set: { name, price } },
+            { $set: { name: data.name, price: data.price } },
             { new: true }
         );
 

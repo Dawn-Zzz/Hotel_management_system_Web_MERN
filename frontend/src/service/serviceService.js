@@ -14,3 +14,8 @@ export const viewService = (id) => {
 export const addNewService = (data) => {
     return apiBackend.post(`/api/service/add`, data);
 };
+
+//Edit service
+export const editService = (id,data) => {
+    return apiBackend.post(`/api/service/edit/${id}`, data);
+};

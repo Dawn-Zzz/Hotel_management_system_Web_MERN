@@ -4,7 +4,7 @@ const serviceController = require("../controllers/serviceController");
 const router = express.Router();
 
 router.post("/add", serviceController.add);
-router.post("/edit", serviceController.edit);
+router.post("/edit/:id", serviceController.edit);
 router.get("/viewListService/:currentPage", serviceController.viewListService);
 router.get(
     "/searchService/:currentPage&:keyword",
