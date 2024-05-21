@@ -40,22 +40,21 @@ const EditStaff = () => {
     const editData = async () => {
         console.log(staff);
         try {
-          setIsLoading(true);
-          const data = await editStaff(id,staff);
-          console.log(data);
-          if (data.code === 0) {
-            
-            toast.success(data.message);
-            nav("/admin/staff");
-          } else {
-            toast.error(data.message);
-          }
-          setIsLoading(false);
+            setIsLoading(true);
+            const data = await editStaff(id, staff);
+            console.log(data);
+            if (data.code === 0) {
+                toast.success(data.message);
+                nav("/admin/staff");
+            } else {
+                toast.error(data.message);
+            }
+            setIsLoading(false);
         } catch (error) {
-          console.error(error);
-          setIsLoading(false);
+            console.error(error);
+            setIsLoading(false);
         }
-      };
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -71,9 +70,9 @@ const EditStaff = () => {
         const day = String(d.getDate()).padStart(2, "0");
         const year = d.getFullYear();
         return `${year}-${month}-${day}`;
-      };
-    
-      const formattedDateOfBirth = staff.dateOfBirth
+    };
+
+    const formattedDateOfBirth = staff.dateOfBirth
         ? formatDate(staff.dateOfBirth)
         : "";
     return isLoading ? (
@@ -81,7 +80,7 @@ const EditStaff = () => {
     ) : (
         <div>
             <div className="text-[32px] font-semibold text-gray-600 pb-4 mb-4 border-b border-gray-300">
-                Add New Staff
+                Edit Staff
             </div>
             <div>
                 <div className="py-2 text-gray-500">

@@ -46,21 +46,29 @@ const RoomType = () => {
                     </th>
                     <th className="text-gray-600 font-medium">Room Rate</th>
                     <th className="text-gray-600 font-medium">Capacity</th>
-                    <th className="text-gray-600 font-medium">Action</th>
+                    <th className="text-gray-600 font-medium text-center">
+                        Action
+                    </th>
                 </tr>
                 {data.map((roomtype) => (
                     <tr key={roomtype._id} className="border-b">
                         <td className="py-4 text-gray-500">{roomtype.name}</td>
+                        <td className="py-4 text-gray-500">{roomtype.price}</td>
                         <td className="py-4 text-gray-500">
-                            {roomtype.price}
+                            {roomtype.capacity}
                         </td>
-                        <td className="py-4 text-gray-500">{roomtype.capacity}</td>
-                        <td className="py-4 text-gray-500">
+                        <td className="py-4 text-gray-500 text-center">
                             <Link
                                 to={`/admin/roomtype/edit/${roomtype._id}`}
-                                className="text-indigo-600 hover:underline"
+                                className="text-purple-700 bg-purple-200 py-1 px-4 rounded-full mr-2"
                             >
                                 Edit
+                            </Link>
+                            <Link
+                                to={`/admin/roomtype/${roomtype._id}`}
+                                className="text-purple-700 bg-purple-200 py-1 px-4 rounded-full"
+                            >
+                                Detail
                             </Link>
                         </td>
                     </tr>

@@ -38,7 +38,7 @@ const GuestDetail = () => {
     return isLoading ? (
         <Loading />
     ) : (
-        <div className="h-[80vh]">
+        <div className="h-[78vh]">
             <div className="text-[32px] font-semibold text-gray-600 pb-4 border-b border-gray-300">
                 Guest Detail
             </div>

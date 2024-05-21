@@ -15,7 +15,9 @@ import AddRoom from "../admin/pages/room/rooms/AddRoom";
 import RoomDetail from "../admin/pages/room/rooms/RoomDetail";
 import Rooms from "../admin/pages/room/rooms/Rooms";
 import AddService from "../admin/pages/service/AddService";
+import EditService from "../admin/pages/service/EditService";
 import Service from "../admin/pages/service/Service";
+import ServiceDetail from "../admin/pages/service/ServiceDetail";
 import AddStaff from "../admin/pages/staff/AddStaff";
 import EditStaff from "../admin/pages/staff/EditStaff";
 import Staff from "../admin/pages/staff/Staff";
@@ -30,7 +32,7 @@ const publicAdminRoutes = [
     { path: "/admin/guest/edit/:id", component: EditGuest },
     //Room
     { path: "/admin/rooms", component: Rooms },
-    { path: "/admin/rooms/:id", component: RoomDetail },
+    { path: "/admin/rooms/detail", component: RoomDetail },
     { path: "/admin/rooms/add", component: AddRoom },
     //RoomType
     { path: "/admin/roomtype", component: RoomType },
@@ -46,6 +48,8 @@ const publicAdminRoutes = [
     { path: "/admin/invoice", component: Invoice },
     //Service
     { path: "/admin/service", component: Service },
+    { path: "/admin/service/:id", component: ServiceDetail },
+    { path: "/admin/service/edit/:id", component: EditService },
     { path: "/admin/addservice", component: AddService },
     //Registration
     { path: "/admin/registration", component: Registration },

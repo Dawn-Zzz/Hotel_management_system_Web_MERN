@@ -9,7 +9,7 @@ const Rooms = () => {
             </div>
             <div>
                 <Link
-                    to="/admin/addregistration"
+                    to="/admin/rooms/add"
                     className="rounded-lg border bg-indigo-600 text-white px-4 py-3"
                 >
                     Add new{" "}
@@ -25,9 +25,12 @@ const Rooms = () => {
                             <p className="font-semibold text-lg mt-4">101</p>
                         </div>
                         <div className="flex justify-end">
-                            <button className="text-white bg-[#1cc88a] py-2 px-6 rounded-full">
+                            <Link
+                                to="/admin/rooms/detail"
+                                className="text-white bg-[#1cc88a] py-2 px-6 rounded-full"
+                            >
                                 Details
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -40,9 +43,12 @@ const Rooms = () => {
                             <p className="font-semibold text-lg mt-4">101</p>
                         </div>
                         <div className="flex justify-end">
-                            <button className="text-white bg-[#1cc88a] py-2 px-6 rounded-full">
+                            <Link
+                                to="/admin/rooms/detail"
+                                className="text-white bg-[#1cc88a] py-2 px-6 rounded-full"
+                            >
                                 Details
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -55,9 +61,12 @@ const Rooms = () => {
                             <p className="font-semibold text-lg mt-4">101</p>
                         </div>
                         <div className="flex justify-end">
-                            <button className="text-white bg-[#1cc88a] py-2 px-6 rounded-full">
+                            <Link
+                                to="/admin/rooms/detail"
+                                className="text-white bg-[#1cc88a] py-2 px-6 rounded-full"
+                            >
                                 Details
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -70,9 +79,12 @@ const Rooms = () => {
                             <p className="font-semibold text-lg mt-4">101</p>
                         </div>
                         <div className="flex justify-end">
-                            <button className="text-white bg-red-600 py-2 px-6 rounded-full">
+                            <Link
+                                to="/admin/rooms/detail"
+                                className="text-white bg-red-600 py-2 px-6 rounded-full"
+                            >
                                 Details
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>

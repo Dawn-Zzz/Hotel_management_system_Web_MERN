@@ -10,12 +10,13 @@ router.post("/add", roomTypeController.add);
 router.post("/edit", roomTypeController.edit);
 router.post("/delete", roomTypeController.deleteRoomType);
 router.get(
-  "/viewListRoomType/:currentPage",
-  roomTypeController.viewListRoomType
+    "/viewListRoomType/:currentPage",
+    roomTypeController.viewListRoomType
 );
 router.get(
-  "/searchRoomType/:currentPage&:keyword",
-  roomTypeController.searchRoomType
+    "/searchRoomType/:currentPage&:keyword",
+    roomTypeController.searchRoomType
 );
+router.get("/:id", roomTypeController.getById);
 
 module.exports = router;
