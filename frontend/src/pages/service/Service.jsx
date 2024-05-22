@@ -14,9 +14,16 @@ const Service = () => {
                 title="Services"
                 des="EXPERIENCE LUXURY AND COMFORT AT OUR HOTEL."
             />
-            <div className="w-3/4">
+            <div className="w-3/4 mt-8">
                 <ServiceTag
                     reverse={false}
+                    thumb={service1}
+                    title="Our Restaurant"
+                    name="Dining & Drinks"
+                    des="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."
+                />
+                <ServiceTag
+                    reverse={true}
                     thumb={service1}
                     title="Our Restaurant"
                     name="Dining & Drinks"
