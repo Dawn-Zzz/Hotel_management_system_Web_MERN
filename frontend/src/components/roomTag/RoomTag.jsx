@@ -1,13 +1,13 @@
 import React from "react";
 
-const RoomTag = ({ img, name, price, bed }) => {
+const RoomTag = ({ img, name, price, bed, quantity }) => {
     return (
         <div className="w-[32%] shadow-xl mt-6">
             <img src={img} alt="" className="h-[280px] w-full" />
             <div className="p-4">
                 <div className="flex justify-between items-center">
                     <p className="font-bold text-2xl">{name}</p>
-                    <p className="p-2 bg-blue-500 text-white font-semibold rounded-md">
+                    <p className="p-2 bg-blue-500 text-white font-semibold rounded-md text-sm">
                         {price}VND / night
                     </p>
                 </div>
@@ -35,7 +35,18 @@ const RoomTag = ({ img, name, price, bed }) => {
                         id=""
                         className="border px-2 py-1 rounded-md"
                     >
-                        <option value="">0 room</option>
+                        <option value="0" selected>
+                            0 room
+                        </option>
+                        {(() => {
+                            const options = [];
+                            for (let i = 0; i < quantity; i++) {
+                                options.push(
+                                    <option value={i + 1}>{i + 1} rooms</option>
+                                );
+                            }
+                            return options;
+                        })()}
                     </select>
                 </div>
             </div>

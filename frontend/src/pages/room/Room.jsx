@@ -5,9 +5,11 @@ import home_3 from "../../assets/images/home_3.jpg";
 import home_4 from "../../assets/images/home_4.jpg";
 import RoomTag from "../../components/roomTag/RoomTag";
 import { viewListRoomType } from "../../service/roomTypeService";
+import { viewListRoom } from "../../service/roomService";
 
 const Room = () => {
     const [data, setData] = useState([]);
+    const [rooms, setRooms] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [checkin, setCheckin] = useState("");
     const [checkout, setCheckout] = useState("");
@@ -24,6 +26,7 @@ const Room = () => {
 
     useEffect(() => {
         getData();
+        getRooms();
     }, []);
 
     const getData = async () => {
@@ -41,6 +44,23 @@ const Room = () => {
             console.error(error);
         }
     };
+
+    const getRooms = async () => {
+        try {
+            setIsLoading(true);
+            const data = await viewListRoom(1);
+            console.log(data);
+            if (data?.code === 0) {
+                setRooms(data?.data);
+            } else {
+                setRooms([]);
+            }
+            setIsLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     data.map((d) => {
         console.log(d);
     });
@@ -58,19 +78,19 @@ const Room = () => {
     }, [checkin]);
 
     useEffect(() => {
-        data.map((room) => {
+        data.map((roomtype) => {
             if (
-                room.name == "Family" ||
-                room.name == "Superior" ||
-                room.name == "Family Suite"
+                roomtype.name == "Family" ||
+                roomtype.name == "Superior" ||
+                roomtype.name == "Family Suite"
             ) {
                 setBedQuantity(2);
             } else {
                 setBedQuantity(1);
             }
-            if (room.name == "Family" || room.name == "Superior") {
+            if (roomtype.name == "Family" || roomtype.name == "Superior") {
                 setBedType("Single Bed");
-            } else if (room.name == "Suite") {
+            } else if (roomtype.name == "Suite") {
                 setBedType("Big Twin Bed");
             } else {
                 setBedType("Twin Bed");
@@ -116,14 +136,22 @@ const Room = () => {
                 </button>
             </div>
             <div className="flex w-3/5 flex-wrap justify-between mb-16">
-                {data.map((room) => (
-                    <RoomTag
-                        img={room.images}
-                        name={room.name}
-                        price={room.price}
-                        bed={bedQuantity + " " + bedType}
-                    />
-                ))}
+                {data.map((roomtype) => {
+                    let quantity = 0;
+                    rooms.map((room) => {
+                        room.roomType == roomtype._id ? quantity++ : "";
+                    });
+                    console.log(roomtype.name, ": ", quantity);
+                    return (
+                        <RoomTag
+                            img={roomtype.images}
+                            name={roomtype.name}
+                            price={roomtype.price}
+                            bed={bedQuantity + " " + bedType}
+                            quantity={quantity}
+                        />
+                    );
+                })}
             </div>
             <div className="flex flex-col items-center bg-slate-100 pt-12 pb-16 w-full">
                 <p className="text-[52px] font-serif font-semibold">

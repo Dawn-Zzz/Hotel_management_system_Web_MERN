@@ -7,6 +7,7 @@ import Invoice from "../admin/pages/invoice/Invoice";
 import AdminLogin from "../admin/pages/login/AdminLogin";
 import AddRegistration from "../admin/pages/registration/AddRegistration";
 import Registration from "../admin/pages/registration/Registration";
+import RegistrationDetail from "../admin/pages/registration/RegistrationDetail";
 import AddRoomType from "../admin/pages/room/roomType/AddRoomType";
 import EditRoomType from "../admin/pages/room/roomType/EditRoomType";
 import RoomType from "../admin/pages/room/roomType/RoomType";
@@ -54,6 +55,7 @@ const publicAdminRoutes = [
     //Registration
     { path: "/admin/registration", component: Registration },
     { path: "/admin/addregistration", component: AddRegistration },
+    { path: "/admin/:id", component: RegistrationDetail },
     //Auth
     { path: "/admin/login", component: AdminLogin, layout: null },
 ];
