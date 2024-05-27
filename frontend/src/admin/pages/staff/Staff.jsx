@@ -36,7 +36,7 @@ const Staff = () => {
                 Staff List
             </div>
             <Link
-                to="/admin/addstaff"
+                to="/admin/staff/create"
                 className="rounded-lg border bg-indigo-600 text-white px-4 py-3"
             >
                 Add new{" "}

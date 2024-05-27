@@ -37,7 +37,7 @@ const Guest = () => {
                 Guest List
             </div>
             <Link
-                to="/admin/guest/add"
+                to="/admin/guest/create"
                 className="rounded-lg border bg-indigo-600 text-white px-4 py-3"
             >
                 Add new{" "}

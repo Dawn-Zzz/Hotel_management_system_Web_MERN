@@ -34,7 +34,7 @@ const Service = () => {
                 Service List
             </div>
             <Link
-                to="/admin/addservice"
+                to="/admin/service/create"
                 className="rounded-lg border bg-indigo-600 text-white px-4 py-3"
             >
                 Add new{" "}

@@ -50,7 +50,7 @@ const Registration = () => {
             </div>
             <div>
                 <Link
-                    to="/admin/addregistration"
+                    to="/admin/registration/create"
                     className="rounded-lg border bg-indigo-600 text-white px-4 py-3"
                 >
                     Add new{" "}
@@ -123,13 +123,13 @@ const Registration = () => {
                                 </td>
                                 <td className="py-4 text-gray-500 text-center">
                                     <Link
-                                        to={`/admin/guest/edit/${guest._id}`}
+                                        to={`/admin/registration/edit/${registration._id}`}
                                         className="text-purple-700 bg-purple-200 py-1 px-4 rounded-full mr-2"
                                     >
                                         Edit
                                     </Link>
                                     <Link
-                                        to={`/admin/guest/${guest._id}`}
+                                        to={`/admin/registration/${registration._id}`}
                                         className="text-purple-700 bg-purple-200 py-1 px-4 rounded-full"
                                     >
                                         Detail

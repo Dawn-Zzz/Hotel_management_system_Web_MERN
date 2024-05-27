@@ -18,7 +18,7 @@ const AddRegistration = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [modal, setModal] = useState(false);
     const [choosenRoomType, setChoosenRoomType] = useState("");
-    const [choosenRoom, setChoosenRoom] = useState({});
+    const [choosenRoom, setChoosenRoom] = useState("");
     const [clientQuantity, setClientQuantity] = useState("");
 
     const today = new Date().toISOString().split("T")[0];
@@ -190,10 +190,7 @@ const AddRegistration = () => {
                                         const selectedText =
                                             e.target.options[selectedIndex]
                                                 .text;
-                                        setChoosenRoom({
-                                            value: e.target.value,
-                                            name: selectedText,
-                                        });
+                                        setChoosenRoom(e.target.value);
                                     }}
                                 >
                                     <option disabled selected>
