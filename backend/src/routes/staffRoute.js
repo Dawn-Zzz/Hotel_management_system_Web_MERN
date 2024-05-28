@@ -1,10 +1,10 @@
 const express = require("express");
 const staffController = require("../controllers/staffController");
-const { checkAdminJWT } = require("../middleware/jwtActions");
+const { checkJWT } = require("../middleware/jwtActions");
 const router = express.Router();
 
 router.post("/login", staffController.login);
-router.post("/refresh", checkAdminJWT, staffController.refresh);
+router.post("/refresh", checkJWT, staffController.refresh);
 router.post("/logout", staffController.logout);
 router.post("/add", staffController.add);
 router.post("/edit/:id", staffController.edit);

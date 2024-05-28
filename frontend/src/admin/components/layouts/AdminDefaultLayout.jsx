@@ -1,8 +1,21 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { handleLogout } from "../../../redux/auth/authAction";
 
 const AdminDefaultLayout = ({ children }) => {
     const [roomMenu, setRoommenu] = useState(false);
+    const auth = useSelector((state) => state.auth);
+    console.log(auth);
+
+    const dispatch = useDispatch();
+    const nav = useNavigate();
+
+    const onclickLogout = (e) => {
+        e.preventDefault();
+        dispatch(handleLogout(nav));
+        console.log("Đã bấm nút");
+    };
     return (
         <div className="flex">
             <div className="h-screen w-[220px] fixed bg-indigo-600 text-white">
@@ -105,7 +118,7 @@ const AdminDefaultLayout = ({ children }) => {
                             role="button"
                             className="btn m- h-2 bg-transparent border-none shadow-none"
                         >
-                            Username
+                            {auth?.data?.name}
                         </div>
                         <ul
                             tabIndex={0}
@@ -115,7 +128,7 @@ const AdminDefaultLayout = ({ children }) => {
                                 <a>Item 1</a>
                             </li>
                             <li>
-                                <a>Log out</a>
+                                <a onClick={onclickLogout}>Log out</a>
                             </li>
                         </ul>
                     </div>

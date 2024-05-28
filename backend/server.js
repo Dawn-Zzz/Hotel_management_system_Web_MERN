@@ -1,7 +1,7 @@
 const express = require("express");
 const initRoutes = require("./src/routes/initRoutes");
 const connectDB = require("./src/config/database");
-// const cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const app = express();
 app.use(express.json());
@@ -32,7 +32,7 @@ app.use(express.json()); // for json
 app.use(express.urlencoded({ extended: true })); // for form data
 
 // config cookie parser
-// app.use(cookieParser());
+app.use(cookieParser());
 
 // config routes
 initRoutes(app);

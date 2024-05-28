@@ -18,4 +18,19 @@ export const addNewStaff = (data) => {
 //Edit staff
 export const editStaff = (id,data) => {
     return apiBackend.post(`/api/staff/edit/${id}`, data);
-  };
+};
+
+//Login
+export const loginStaff = (username,password) => {
+    return apiBackend.post(`/api/staff/login`, {username, password});
+};
+
+//Refresh
+export const refreshStaff = () => {
+    return apiBackend.post(`/api/staff/refresh`);
+};
+
+//Logout
+export const logoutStaff = () => {
+    return apiBackend.post(`/api/staff/logout`);
+};
