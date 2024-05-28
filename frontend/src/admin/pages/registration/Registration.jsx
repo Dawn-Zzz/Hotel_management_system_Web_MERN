@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { viewBooking, viewListBooking } from "../../../service/bookingService";
 import { viewGuest, viewListGuest } from "../../../service/guestService";
+import Loading from "../../../components/loading/Loading";
 
 const Registration = () => {
     const [registrations, setRegistrations] = useState([]);
@@ -43,7 +44,9 @@ const Registration = () => {
         }
     };
     console.log(registrations);
-    return (
+    return isLoading ? (
+        <Loading />
+    ) : (
         <div>
             <div className="text-[40px] font-semibold text-gray-600 mb-4">
                 Registration Form List

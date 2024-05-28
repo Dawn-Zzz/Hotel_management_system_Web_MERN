@@ -20,6 +20,13 @@ export default {
                         transform: "rotate(0deg)",
                     },
                 },
+                modalFaceIn: {
+                    from: { opacity: 0, transform: "translateY(-140px)" },
+                    to: { opacity: 1, transform: "translateY(0)" },
+                },
+            },
+            animation: {
+                modalFaceIn: "modalFaceIn ease .5s",
             },
         },
     },
