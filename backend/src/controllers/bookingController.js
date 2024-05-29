@@ -3,6 +3,9 @@ const roomBookingModel = require("../models/roomBookingModel");
 const guestModel = require("../models/guestModel");
 const bookingModel = require("../models/bookingModel");
 const serviceBookingModel = require("../models/serviceBookingModel");
+const roomTypeModel = require("../models/roomTypeModel");
+const serviceModel = require("../models/serviceModel");
+const billModel = require("../models/billModel");
 
 const createBooking = async (req, res) => {
   try {
@@ -89,9 +92,9 @@ let editBooking = async (req, res) => {
     }
 
     const currentDate = new Date().toISOString().split("T")[0]; // format to YYYY-MM-DD;
+    const checkin = booking.checkin.toISOString().split("T")[0];
 
     if (roomInteraction === "Đã nhận phòng") {
-      const checkin = booking.checkin.toISOString().split("T")[0];
       if (checkin > currentDate) {
         throw {
           code: 1,
@@ -142,11 +145,64 @@ let editBooking = async (req, res) => {
       };
     }
 
-    res.status(200).json({
-      code: 0,
-      message: "Chỉnh sửa thông tin Booking thành công",
-      data: updatedBooking,
-    });
+    let bill = null;
+    if (roomInteraction === "Đã trả phòng") {
+      const daysStayed =
+        (new Date(booking.checkout) - new Date(booking.checkin)) /
+        (1000 * 60 * 60 * 24);
+
+      const eachRoomCharges = await Promise.all(
+        booking.roomBookings.map(async (rb) => {
+          const roomBooking = await roomBookingModel.findById(rb);
+          const room = await roomModel.findById(roomBooking.room);
+          const roomType = await roomTypeModel.findById(room.roomType);
+          return roomType.price * daysStayed;
+        })
+      );
+
+      const roomCharge = eachRoomCharges.reduce(
+        (total, charge) => total + charge,
+        0
+      );
+
+      const eachServiceCharges = await Promise.all(
+        updatedBooking.serviceBookings.map(async (sb) => {
+          const serviceBooking = await serviceBookingModel.findById(sb);
+          const service = await serviceModel.findById(serviceBooking.service);
+          return service.price * serviceBooking.quantity;
+        })
+      );
+
+      const serviceCharge = eachServiceCharges.reduce(
+        (total, charge) => total + charge,
+        0
+      );
+
+      //Create a new bill
+      bill = await billModel.create({
+        guest: booking.guest,
+        staff: null,
+        booking: id,
+        roomCharge: roomCharge,
+        serviceCharge: serviceCharge,
+      });
+    }
+
+    if (bill) {
+      res.status(200).json({
+        code: 0,
+        message:
+          "Chỉnh sửa thông tin thuê phòng thành công và hóa đơn đã được tạo",
+        data: updatedBooking,
+        bill: bill,
+      });
+    } else {
+      res.status(200).json({
+        code: 0,
+        message: "Chỉnh sửa thông tin thuê phòng thành công",
+        data: updatedBooking,
+      });
+    }
   } catch (error) {
     console.error(error);
     res.status(200).json({
