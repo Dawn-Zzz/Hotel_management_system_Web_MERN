@@ -39,24 +39,24 @@ const publicAdminRoutes = [
     //RoomType
     { path: "/admin/roomtype", component: RoomType },
     { path: "/admin/roomtype/:id", component: RoomTypeDetail },
-    { path: "/admin/roomtype/add", component: AddRoomType },
+    { path: "/admin/roomtype/create", component: AddRoomType },
     { path: "/admin/roomtype/edit/:id", component: EditRoomType },
     //Staff
     { path: "/admin/staff", component: Staff },
     { path: "/admin/staff/:id", component: StaffDetail },
-    { path: "/admin/staff/edit/:id", component: EditStaff },
     { path: "/admin/staff/create", component: AddStaff },
+    { path: "/admin/staff/edit/:id", component: EditStaff },
     //Invoice
     { path: "/admin/invoice", component: Invoice },
     //Service
     { path: "/admin/service", component: Service },
     { path: "/admin/service/:id", component: ServiceDetail },
-    { path: "/admin/service/edit/:id", component: EditService },
     { path: "/admin/service/create", component: AddService },
+    { path: "/admin/service/edit/:id", component: EditService },
     //Registration
     { path: "/admin/registration", component: Registration },
-    { path: "/admin/registration/create", component: AddRegistration },
     { path: "/admin/registration/:id", component: RegistrationDetail },
+    { path: "/admin/registration/create", component: AddRegistration },
     { path: "/admin/registration/edit/:id", component: EditRegistration },
     //Auth
     { path: "/admin/login", component: AdminLogin, layout: null },
