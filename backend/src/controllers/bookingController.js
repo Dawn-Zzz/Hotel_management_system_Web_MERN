@@ -1,8 +1,8 @@
-const Booking = require("../models/bookingModel");
-const Room = require("../models/roomModel");
-const RoomBooking = require("../models/roomBookingModel");
+const roomModel = require("../models/roomModel");
+const roomBookingModel = require("../models/roomBookingModel");
 const guestModel = require("../models/guestModel");
 const bookingModel = require("../models/bookingModel");
+const serviceBookingModel = require("../models/serviceBookingModel");
 
 const createBooking = async (req, res) => {
   try {
@@ -33,13 +33,13 @@ const createBooking = async (req, res) => {
     // Tạo một mảng các đặt phòng từ roomBookings được cung cấp
     const createdRoomBookings = await Promise.all(
       data.roomBookings.map(async (roomBooking) => {
-        const createdRoomBooking = await RoomBooking.create(roomBooking);
+        const createdRoomBooking = await roomBookingModel.create(roomBooking);
         return createdRoomBooking._id;
       })
     );
 
     // Tạo một đặt phòng mới với thông tin được cung cấp và danh sách các đặt phòng của phòng
-    const booking = await Booking.create({
+    const booking = await bookingModel.create({
       guest: guest._id,
       checkin: data.checkin,
       checkout: data.checkout,
@@ -60,13 +60,115 @@ const createBooking = async (req, res) => {
   }
 };
 
+let editBooking = async (req, res) => {
+  const { roomInteraction, serviceBookings } = req.body;
+  const id = req.params.id;
+
+  // Valid room interaction states
+  const validRoomInteractions = [
+    "Đã nhận phòng",
+    "Đã hủy phòng",
+    "Đã trả phòng",
+  ];
+
+  try {
+    // Check if roomInteraction is valid
+    if (!validRoomInteractions.includes(roomInteraction)) {
+      throw {
+        code: 1,
+        message: "Hành động tương tác phòng đấy không tồn tại",
+      };
+    }
+
+    const booking = await bookingModel.findById(id).populate("roomBookings");
+    if (!booking) {
+      throw {
+        code: 1,
+        message: "Booking không tồn tại",
+      };
+    }
+
+    const currentDate = new Date().toISOString().split("T")[0]; // format to YYYY-MM-DD;
+
+    if (roomInteraction === "Đã nhận phòng") {
+      const checkin = booking.checkin.toISOString().split("T")[0];
+      if (checkin > currentDate) {
+        throw {
+          code: 1,
+          message: "Chưa tới ngày nhận phòng",
+        };
+      }
+      // Update hiện trạng phòng
+      const roomBookingIds = booking.roomBookings.map((rb) => rb.room);
+      await roomModel.updateMany(
+        { _id: { $in: roomBookingIds } },
+        { $set: { isFree: false } }
+      );
+    }
+
+    let createdServiceBookings = null;
+    if (serviceBookings && roomInteraction === "Đã trả phòng") {
+      createdServiceBookings = await Promise.all(
+        serviceBookings.map(async (serviceBooking) => {
+          const createdServiceBooking = await serviceBookingModel.create(
+            serviceBooking
+          );
+          return createdServiceBooking._id;
+        })
+      );
+      // Update hiện trạng phòng
+      const roomBookingIds = booking.roomBookings.map((rb) => rb.room);
+      await roomModel.updateMany(
+        { _id: { $in: roomBookingIds } },
+        { $set: { isFree: true } }
+      );
+    }
+
+    let updatedBooking = await bookingModel.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          roomInteraction: roomInteraction,
+          serviceBookings: createdServiceBookings,
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedBooking) {
+      throw {
+        code: 1,
+        message: "Booking không tồn tại",
+      };
+    }
+
+    res.status(200).json({
+      code: 0,
+      message: "Chỉnh sửa thông tin Booking thành công",
+      data: updatedBooking,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(200).json({
+      code: error.code || 1,
+      message: error.message || "Đã có lỗi xảy ra: Booking",
+    });
+  }
+};
+
 const getAvailableRooms = async (req, res) => {
   try {
     const { checkin, checkout } = req.params;
     // Tìm tất cả các đặt phòng có ngày check-in hoặc check-out chồng chéo với khoảng thời gian đã cung cấp
-    const bookedRooms = await Booking.find({
-      $and: [{ checkin: { $lt: checkout } }, { checkout: { $gt: checkin } }],
-    }).populate("roomBookings");
+    const bookedRooms = await bookingModel
+      .find({
+        $and: [
+          { checkin: { $lt: checkout } },
+          { checkout: { $gt: checkin } },
+          { roomInteraction: { $nin: ["Đã hủy phòng", "Đã trả phòng"] } },
+        ],
+      })
+      .populate("roomBookings");
 
     // Lấy danh sách tất cả các ID phòng đã được đặt
     const bookedRoomIds = bookedRooms.flatMap((booking) =>
@@ -74,7 +176,7 @@ const getAvailableRooms = async (req, res) => {
     );
 
     // Tìm tất cả các phòng không nằm trong danh sách các ID phòng đã được đặt
-    const availableRooms = await Room.find({
+    const availableRooms = await roomModel.find({
       _id: { $nin: bookedRoomIds },
     });
 
@@ -86,9 +188,9 @@ const getAvailableRooms = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      code: 1,
-      message: "Error retrieving available rooms",
+    res.status(200).json({
+      code: error.code || 1,
+      message: error.message || "Đã có lỗi xảy ra: Booking",
     });
   }
 };
@@ -144,6 +246,7 @@ let getById = async (req, res) => {
 
 module.exports = {
   createBooking,
+  editBooking,
   getAvailableRooms,
   viewListBooking,
   getById,

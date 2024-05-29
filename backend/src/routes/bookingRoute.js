@@ -4,6 +4,7 @@ const bookingController = require("../controllers/bookingController");
 const router = express.Router();
 
 router.post("/create", bookingController.createBooking);
+router.put("/edit/:id", bookingController.editBooking);
 router.get(
   "/viewListFreeRoom/:checkin/:checkout",
   bookingController.getAvailableRooms
