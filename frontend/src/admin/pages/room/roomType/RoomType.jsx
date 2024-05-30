@@ -30,7 +30,7 @@ const RoomType = () => {
     return isLoading ? (
         <Loading />
     ) : (
-        <div>
+        <div className="min-h-[78vh] pb-1">
             <div className="text-[40px] font-semibold text-gray-600 mb-8">
                 Room Type List
             </div>

@@ -29,7 +29,7 @@ const Service = () => {
     return isLoading ? (
         <Loading />
     ) : (
-        <div>
+        <div className="min-h-[78vh]">
             <div className="text-[40px] font-semibold text-gray-600 mb-8">
                 Service List
             </div>

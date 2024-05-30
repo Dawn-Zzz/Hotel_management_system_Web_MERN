@@ -207,7 +207,7 @@ const AddRoomType = () => {
                         </div>
                     </div>
                     <div
-                        className={`w-1/2 flex justify-center items-center mt-4 ml-2 bg-gray-300 min-h-56 rounded-2xl overflow-hidden`}
+                        className={`w-1/2 flex justify-center items-center mt-4 ml-2 bg-gray-300 h-60 rounded-2xl overflow-hidden`}
                     >
                         {image.length > 0 ? (
                             <img

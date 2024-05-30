@@ -90,7 +90,7 @@ const EditStaff = () => {
                         name="IDnumber"
                         defaultValue={staff.IDnumber}
                         onChange={handleChange}
-                        className="w-3/4 outline-none rounded-lg p-1 border-gray-300 border mt-2"
+                        className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"
                     />
                 </div>
                 <div className="py-2 text-gray-500">

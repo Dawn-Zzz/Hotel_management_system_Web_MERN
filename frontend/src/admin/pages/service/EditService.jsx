@@ -57,7 +57,7 @@ const EditService = () => {
     return isLoading ? (
         <Loading />
     ) : (
-        <div>
+        <div className="min-h-[78vh]">
             <div className="text-[32px] font-semibold text-gray-600 pb-4 mb-4 border-b border-gray-300">
                 Edit Service
             </div>

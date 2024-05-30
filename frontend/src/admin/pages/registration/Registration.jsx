@@ -47,7 +47,7 @@ const Registration = () => {
     return isLoading ? (
         <Loading />
     ) : (
-        <div>
+        <div className="min-h-[78vh]">
             <div className="text-[40px] font-semibold text-gray-600 mb-4">
                 Registration Form List
             </div>
