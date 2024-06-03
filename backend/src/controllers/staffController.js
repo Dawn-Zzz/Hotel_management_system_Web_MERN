@@ -12,10 +12,8 @@ let login = async (req, res) => {
         message: "Không được bỏ trống thông tin",
       };
     }
-    console.log(username,password)
     let staff = await staffModel.findOne({ username });
 
-    console.log(staff)
     if (!staff) {
       throw {
         code: 1,
@@ -54,9 +52,7 @@ let login = async (req, res) => {
     res.status(200).json({
       code: 0,
       message: "Đăng nhập thành công",
-      data: {_id: staff._id,
-        name: staff.name,
-        token,}
+      data: { _id: staff._id, name: staff.name, token },
     });
   } catch (error) {
     console.error(error);
@@ -188,7 +184,7 @@ let add = async (req, res) => {
         message: "Số CCCD đã tồn tại",
       };
     }
-      // Mã hóa mật khẩu
+    // Mã hóa mật khẩu
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
     staff = await staffModel.create({
@@ -274,7 +270,7 @@ let edit = async (req, res) => {
           "Số CCCD không hợp lệ. Số CCCD phải bắt đầu bằng số 0 và có 12 chữ số",
       };
     }
-    
+
     // Kiểm tra xem IDnumber đã tồn tại cho nhân viên khác hay không
     let existingStaffWithID = await staffModel.findOne({
       IDnumber: data.IDnumber,

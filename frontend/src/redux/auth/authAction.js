@@ -1,4 +1,8 @@
-import { loginStaff, logoutStaff, refreshStaff } from "../../service/staffService";
+import {
+  loginStaff,
+  logoutStaff,
+  refreshStaff,
+} from "../../service/staffService";
 import toast from "react-hot-toast";
 import {
   login,
@@ -12,10 +16,10 @@ import {
   refreshSuccess,
 } from "./authSlice";
 
-export const handleLogin = (username, password,nav) => {
+export const handleLogin = (username, password, nav) => {
   return async (dispatch, getState) => {
     dispatch(login());
-    console.log({username,password});
+
     let res = await loginStaff(username, password);
     if (res) {
       if (res.code === 0) {
@@ -24,6 +28,7 @@ export const handleLogin = (username, password,nav) => {
         nav("/admin");
       } else if (res.code === 1) {
         // Đăng nhập thất bại
+        toast.error("Tài khoản hoặc mật khẩu không đúng");
         dispatch(loginError());
       }
     } else {
@@ -54,12 +59,12 @@ export const handleRefresh = () => {
     }
   };
 };
+
 export const handleLogout = (nav) => {
   return async (dispatch, getState) => {
     dispatch(logout());
 
     let res = await logoutStaff();
-    console.log("data:" , res);
 
     if (res) {
       if (res.code === 0) {
