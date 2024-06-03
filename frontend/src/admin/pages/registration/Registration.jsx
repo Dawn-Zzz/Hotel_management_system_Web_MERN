@@ -97,6 +97,7 @@ const Registration = () => {
                     </th>
                 </tr>
                 {registrations.map((registration) => {
+                    console.log(registration);
                     return guests.map((guest) =>
                         registration.guest == guest._id ? (
                             <tr className="border-b">
@@ -125,12 +126,19 @@ const Registration = () => {
                                     {registration.roomInteraction}
                                 </td>
                                 <td className="py-4 text-gray-500 text-center">
-                                    <Link
-                                        to={`/admin/registration/edit/${registration._id}`}
-                                        className="text-purple-700 bg-purple-200 py-1 px-4 rounded-full mr-2"
-                                    >
-                                        Edit
-                                    </Link>
+                                    {registration.roomInteraction ===
+                                        "Đã trả phòng" ||
+                                    registration.roomInteraction ===
+                                        "Đã hủy phòng" ? (
+                                        ""
+                                    ) : (
+                                        <Link
+                                            to={`/admin/registration/edit/${registration._id}`}
+                                            className="text-purple-700 bg-purple-200 py-1 px-4 rounded-full mr-2"
+                                        >
+                                            Edit
+                                        </Link>
+                                    )}
                                     <Link
                                         to={`/admin/registration/${registration._id}`}
                                         className="text-purple-700 bg-purple-200 py-1 px-4 rounded-full"

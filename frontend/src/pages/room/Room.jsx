@@ -6,15 +6,19 @@ import home_4 from "../../assets/images/home_4.jpg";
 import RoomTag from "../../components/roomTag/RoomTag";
 import { viewListRoomType } from "../../service/roomTypeService";
 import { viewListRoom } from "../../service/roomService";
+import { Link } from "react-router-dom";
 
 const Room = () => {
-    const [data, setData] = useState([]);
+    const [roomType, setRoomType] = useState([]);
     const [rooms, setRooms] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [checkin, setCheckin] = useState("");
     const [checkout, setCheckout] = useState("");
-    const [bedQuantity, setBedQuantity] = useState(0);
-    const [bedType, setBedType] = useState("");
+    const [bookedDate, setBookedDate] = useState({
+        checkin: "",
+        checkout: "",
+    });
+    const [selectedValues, setSelectedValues] = useState([]);
 
     const today = new Date().toISOString().split("T")[0];
     const getNextDay = (date) => {
@@ -29,15 +33,34 @@ const Room = () => {
         getRooms();
     }, []);
 
+    useEffect(() => {
+        if (roomType.length > 0) {
+            setSelectedValues(
+                roomType.map((roomtype, index) => ({
+                    roomtype: roomtype.name,
+                    price: roomtype.price,
+                    value: "0",
+                    bedQuantity: "",
+                    bedType: "",
+                }))
+            );
+        }
+    }, [roomType]);
+
+    useEffect(() => {
+        localStorage.setItem("bookedDate", JSON.stringify(bookedDate));
+        localStorage.setItem("roomStored", JSON.stringify(selectedValues));
+    }, [selectedValues, bookedDate]);
+
     const getData = async () => {
         try {
             setIsLoading(true);
             const data = await viewListRoomType(1);
             console.log(data);
             if (data?.code === 0) {
-                setData(data?.data);
+                setRoomType(data?.data);
             } else {
-                setData([]);
+                setRoomType([]);
             }
             setIsLoading(false);
         } catch (error) {
@@ -61,42 +84,29 @@ const Room = () => {
         }
     };
 
-    data.map((d) => {
+    roomType.map((d) => {
         console.log(d);
     });
 
     const handleCheckin = (e) => {
-        setCheckin(e.target.value);
-        setCheckout(getNextDay(checkin));
+        setBookedDate({
+            checkin: e.target.value,
+            checkout: getNextDay(bookedDate.checkin),
+        });
     };
 
-    useEffect(() => {
-        if (checkin) {
-            const nextDay = getNextDay(checkin);
-            setCheckout(nextDay);
-        }
-    }, [checkin]);
+    console.log("selectedValues: ", selectedValues);
 
     useEffect(() => {
-        data.map((roomtype) => {
-            if (
-                roomtype.name == "Family" ||
-                roomtype.name == "Superior" ||
-                roomtype.name == "Family Suite"
-            ) {
-                setBedQuantity(2);
-            } else {
-                setBedQuantity(1);
-            }
-            if (roomtype.name == "Family" || roomtype.name == "Superior") {
-                setBedType("Single Bed");
-            } else if (roomtype.name == "Suite") {
-                setBedType("Big Twin Bed");
-            } else {
-                setBedType("Twin Bed");
-            }
-        });
-    });
+        if (bookedDate.checkin) {
+            const nextDay = getNextDay(bookedDate.checkin);
+            setBookedDate((prev) => ({
+                ...prev,
+                checkout: nextDay,
+            }));
+        }
+    }, [bookedDate.checkin]);
+
     return isLoading ? (
         <Loading />
     ) : (
@@ -117,42 +127,86 @@ const Room = () => {
                     <input
                         type="date"
                         className={`border-2 w-full px-4 py-2 rounded-md outline-none ${
-                            !checkin ? "opacity-50 cursor-default" : ""
+                            !bookedDate.checkin
+                                ? "opacity-50 cursor-default"
+                                : ""
                         }`}
-                        min={getNextDay(checkin)}
+                        min={getNextDay(bookedDate.checkin)}
                         onClick={(e) => {
-                            if (!checkin) {
+                            if (!bookedDate.checkin) {
                                 e.preventDefault();
                             }
                         }}
                         onChange={(e) => {
-                            setCheckout(e.target.value);
+                            setBookedDate((prev) => ({
+                                ...prev,
+                                checkout: e.target.value,
+                            }));
                         }}
-                        value={checkout}
+                        value={bookedDate.checkout}
                     />
                 </div>
-                <button className="w-1/6 bg-blue-600 text-white h-3/5 rounded-lg">
+                <button
+                    className="btn w-1/6 bg-blue-600 hover:bg-blue-500 text-white h-3/5 rounded-lg"
+                    onClick={() => {
+                        console.log("checkin", bookedDate);
+                    }}
+                >
                     Check
                 </button>
             </div>
-            <div className="flex w-3/5 flex-wrap justify-between mb-16">
-                {data.map((roomtype) => {
+            <div className="flex w-3/5 flex-wrap justify-between mb-8">
+                {roomType.map((roomtype, index) => {
                     let quantity = 0;
                     rooms.map((room) => {
                         room.roomType == roomtype._id ? quantity++ : "";
                     });
                     console.log(roomtype.name, ": ", quantity);
+
+                    const bedQuantity =
+                        roomtype.name === "Family" ||
+                        roomtype.name === "Superior" ||
+                        roomtype.name === "Family Suite"
+                            ? 2
+                            : 1;
+
+                    let bedType = "Twin Bed";
+                    if (
+                        roomtype.name === "Family" ||
+                        roomtype.name === "Superior"
+                    ) {
+                        bedType = "Single Bed";
+                    } else if (roomtype.name === "Suite") {
+                        bedType = "Big Twin Bed";
+                    }
                     return (
                         <RoomTag
+                            index={index}
                             img={roomtype.images}
                             name={roomtype.name}
                             price={roomtype.price}
                             bed={bedQuantity + " " + bedType}
                             quantity={quantity}
+                            onSelectChange={(value) => {
+                                const newQuantities = [...selectedValues];
+                                newQuantities[index].value = value;
+                                newQuantities[index].bedQuantity = bedQuantity;
+                                newQuantities[index].bedType = bedType;
+                                setSelectedValues(newQuantities);
+                            }}
                         />
                     );
                 })}
             </div>
+            <Link
+                className="py-3 mb-8 px-16 bg-black text-white"
+                to="/booking"
+                // onClick={() => {
+                //     console.log(selectedValues);
+                // }}
+            >
+                Submit
+            </Link>
             <div className="flex flex-col items-center bg-slate-100 pt-12 pb-16 w-full">
                 <p className="text-[52px] font-serif font-semibold">
                     Great Offers

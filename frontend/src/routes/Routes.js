@@ -1,4 +1,5 @@
 import About from "../pages/about/About";
+import BookingForm from "../pages/bookingForm/BookingForm";
 import Home from "../pages/home/Home";
 import Room from "../pages/room/Room";
 import Service from "../pages/service/Service";
@@ -8,6 +9,7 @@ const publicRoutes = [
     { path: "/room", component: Room },
     { path: "/about", component: About },
     { path: "/service", component: Service },
+    { path: "/booking", component: BookingForm, layout: null },
 ];
 
 const privateRoute = [];

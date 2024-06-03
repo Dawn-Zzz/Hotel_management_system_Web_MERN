@@ -1,12 +1,23 @@
 import React from "react";
 
-const RoomTag = ({ img, name, price, bed, quantity }) => {
+const RoomTag = ({
+    img,
+    name,
+    price,
+    bed,
+    quantity,
+    onSelectChange,
+    index,
+}) => {
+    const handleChange = (e) => {
+        onSelectChange(e.target.value, index);
+    };
     return (
         <div className="w-[32%] shadow-xl mt-6">
             <img src={img} alt="" className="h-[280px] w-full" />
             <div className="p-4">
                 <div className="flex justify-between items-center">
-                    <p className="font-bold text-2xl">{name}</p>
+                    <p className="font-bold text-xl">{name}</p>
                     <p className="p-2 bg-blue-500 text-white font-semibold rounded-md text-sm">
                         {price}VND / night
                     </p>
@@ -34,6 +45,7 @@ const RoomTag = ({ img, name, price, bed, quantity }) => {
                         name=""
                         id=""
                         className="border px-2 py-1 rounded-md"
+                        onChange={handleChange}
                     >
                         <option value="0" selected>
                             0 room

@@ -180,7 +180,7 @@ const EditRegistration = () => {
                         <Link
                             className="rounded-lg bg-indigo-600 text-white px-4 py-2 mt-4 w-20 text-center"
                             onClick={editDataBooking}
-                        >
+                        > 
                             Submit
                         </Link>
                         <Link
