@@ -2,16 +2,36 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import thumb from "../../assets/images/thumbimg.png";
 import { viewListRoomType } from "../../service/roomTypeService";
+import { payment } from "../../service/paymentService";
 
 const BookingForm = () => {
     const [rooms, setRooms] = useState([]);
     const [bookedDate, setBookedDate] = useState({});
     const [roomTypes, setRoomTypes] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [paymentLink, setPaymentLink] = useState("");
+    const [paymentData, setPaymentData] = useState({ amount: 0 });
+    const [total, setTotal] = useState(0);
+    console.log(paymentData);
+    useEffect(() => {
+        const newTotal = rooms.reduce(
+            (sum, room) => sum + Number(room.value) * room.price,
+            0
+        );
+        setTotal(newTotal);
+    }, [rooms]);
 
     useEffect(() => {
         getRoomType();
-    }, []);
+        // getPaymentLink();
+    }, [paymentData]);
+
+    useEffect(() => {
+        setPaymentData({
+            amount: total / 2,
+        });
+    }, [total]);
+    console.log(paymentData);
 
     const getRoomType = async () => {
         try {
@@ -28,7 +48,20 @@ const BookingForm = () => {
             console.error(error);
         }
     };
-    let total = 0;
+
+    const getPaymentLink = async () => {
+        try {
+            setIsLoading(true);
+            const data = await payment(paymentData);
+            console.log("đa", paymentData);
+            console.log("đatttt", data);
+            setPaymentLink(data.payUrl);
+            setIsLoading(false);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         const storedRoom = localStorage.getItem("roomStored");
         if (storedRoom) {
@@ -91,8 +124,6 @@ const BookingForm = () => {
                         </div>
                     </div>
                     {rooms.map((room) => {
-                        total = total + Number(room.value) * room.price;
-
                         return room.value != "0" ? (
                             <div className="mt-8">
                                 <div className="w-full flex">
@@ -161,7 +192,7 @@ const BookingForm = () => {
                             ""
                         );
                     })}
-                    <div className="pt-8">
+                    <div className="pt-8 mb-8">
                         <div className="flex w-full mb-4">
                             <p className="w-1/2">
                                 Check-In:{" "}
@@ -181,40 +212,33 @@ const BookingForm = () => {
                             <span className="font-semibold">{total}</span>
                         </p>
                     </div>
-                    <div className="pt-8 border-t border-gray-300 mt-8">
-                        <p className="mb-4">Payment Method:</p>
-                        <div className="w-1/6">
-                            <div className="form-control">
-                                <label className="label cursor-pointer">
-                                    <input
-                                        type="radio"
-                                        name="radio-10"
-                                        className="radio"
-                                        checked
-                                    />
-                                    <span className="label-text">
-                                        Direct Payment
-                                    </span>
-                                </label>
-                            </div>
-                            <div className="form-control">
-                                <label className="label cursor-pointer">
-                                    <input
-                                        type="radio"
-                                        name="radio-10"
-                                        className="radio"
-                                        checked
-                                    />
-                                    <span className="label-text">
-                                        Online Payment
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <button className="bg-blue-500 text-white py-3 w-full mt-8 font-semibold">
+
+                    <button
+                        className="btn w-full bg-blue-500 hover:bg-blue-400 text-white"
+                        onClick={() => {
+                            getPaymentLink();
+                            document.getElementById("my_modal_2").showModal();
+                        }}
+                    >
                         Book Now
                     </button>
+                    <dialog id="my_modal_2" className="modal ">
+                        <div className="modal-box flex flex-col items-center">
+                            <h3 className="font-bold text-2xl">
+                                Confirm Payment?
+                            </h3>
+                            <Link
+                                className="btn bg-black hover:bg-gray-600 text-white py-3 w-1/3 mt-8 font-semibold block text-center text-base"
+                                onClick={() => {}}
+                                to={paymentLink}
+                            >
+                                Comfirm
+                            </Link>
+                        </div>
+                        <form method="dialog" className="modal-backdrop">
+                            <button>close</button>
+                        </form>
+                    </dialog>
                     <div className="w-full flex justify-center mb-4">
                         <Link
                             className=" text-red-600 text-center py-3 mt-4 font-semibold"
