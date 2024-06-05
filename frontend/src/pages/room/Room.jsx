@@ -75,6 +75,7 @@ const Room = () => {
         if (roomType.length > 0) {
             setSelectedValues(
                 roomType.map((roomtype, index) => ({
+                    roomtypeId: roomtype._id,
                     roomtype: roomtype.name,
                     price: roomtype.price,
                     value: "0",
@@ -86,7 +87,7 @@ const Room = () => {
     }, [roomType]);
 
     useEffect(() => {
-        localStorage.setItem("bookedDate", JSON.stringify(bookedDate));
+        localStorage.setItem("bookedDateStored", JSON.stringify(bookedDate));
         localStorage.setItem("roomStored", JSON.stringify(selectedValues));
         setSubmitBtn(selectedValues.some((item) => item.value != "0"));
     }, [selectedValues, bookedDate]);
