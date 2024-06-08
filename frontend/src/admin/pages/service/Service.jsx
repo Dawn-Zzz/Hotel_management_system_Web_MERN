@@ -40,8 +40,10 @@ const Service = () => {
                 Add new{" "}
             </Link>
             <table className="w-full text-left mt-6">
-                <tr>
-                    <th className="text-gray-600 font-medium">Service Name</th>
+                <tr className="border-y">
+                    <th className="text-gray-600 font-medium py-4">
+                        Service Name
+                    </th>
                     <th className="text-gray-600 font-medium">Service Price</th>
                     <th className="text-gray-600 font-medium text-center">
                         Action
