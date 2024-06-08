@@ -45,6 +45,7 @@ let login = async (req, res) => {
 
     // Lưu token vào cookie
     res.cookie("token", token, {
+
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 1 ngày
     });
@@ -67,6 +68,7 @@ let logout = async (req, res) => {
   try {
     // xóa cookie
     res.clearCookie("token");
+
 
     res.status(200).json({
       code: 0,

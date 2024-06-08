@@ -33,7 +33,7 @@ const RegistrationDetail = () => {
         getServiceBooking();
         getService();
     }, []);
-    console.log(booking);
+    console.log("Haha",booking);
     const getBooking = async () => {
         try {
             setIsLoading(true);
@@ -96,7 +96,7 @@ const RegistrationDetail = () => {
             console.error(error);
         }
     };
-    console.log(booking);
+    console.log("Hihi",booking);
     return isLoading ? (
         <Loading />
     ) : (

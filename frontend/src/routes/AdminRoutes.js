@@ -4,6 +4,8 @@ import Guest from "../admin/pages/guest/Guest";
 import GuestDetail from "../admin/pages/guest/GuestDetail";
 import AdminHome from "../admin/pages/home/AdminnHome";
 import Invoice from "../admin/pages/invoice/Invoice";
+import InvoiceDetail from "../admin/pages/invoice/InvoiceDetail";
+import InvoicePDF from "../admin/pages/invoice/invoicePDF";
 import AdminLogin from "../admin/pages/login/AdminLogin";
 import AddRegistration from "../admin/pages/registration/AddRegistration";
 import EditRegistration from "../admin/pages/registration/EditRegistration";
@@ -48,6 +50,8 @@ const publicAdminRoutes = [
     { path: "/admin/staff/edit/:id", component: EditStaff },
     //Invoice
     { path: "/admin/invoice", component: Invoice },
+    { path: "/admin/invoice/:id", component: InvoiceDetail },
+    { path: "/admin/invoice/pdf/:id", component: InvoicePDF },
     //Service
     { path: "/admin/service", component: Service },
     { path: "/admin/service/:id", component: ServiceDetail },
