@@ -6,14 +6,18 @@ const router = express.Router();
 router.post("/create", bookingController.createBooking);
 router.put("/edit/:id", checkJWT, bookingController.editBooking);
 router.get(
-  "/viewListFreeRoom/:checkin/:checkout",
-  bookingController.getAvailableRooms
+    "/viewListFreeRoom/:checkin/:checkout",
+    bookingController.getAvailableRooms
 );
 router.get("/:currentPage", bookingController.viewListBooking);
 router.get("/roombooking/:currentPage", bookingController.viewListRoomBooking);
 router.get(
-  "/servicebooking/:currentPage",
-  bookingController.viewListServiceBooking
+    "/servicebooking/:currentPage",
+    bookingController.viewListServiceBooking
+);
+router.get(
+    "/searchBooking/:currentPage&:keyword",
+    bookingController.searchBooking
 );
 router.get("/view/:id", bookingController.getById);
 router.get("/view/roombooking/:id", bookingController.getRoomBookingById);

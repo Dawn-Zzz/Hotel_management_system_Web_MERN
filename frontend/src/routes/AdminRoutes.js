@@ -28,42 +28,42 @@ import Staff from "../admin/pages/staff/Staff";
 import StaffDetail from "../admin/pages/staff/StaffDetail";
 
 const publicAdminRoutes = [
-  { path: "/admin", component: AdminHome },
-  //Guest
-  { path: "/admin/guest", component: Guest },
-  { path: "/admin/guest/:id", component: GuestDetail },
-  { path: "/admin/guest/create", component: AddGuest },
-  { path: "/admin/guest/edit/:id", component: EditGuest },
-  //Room
-  { path: "/admin/rooms", component: Rooms },
-  { path: "/admin/rooms/:id", component: RoomDetail },
-  { path: "/admin/rooms/create", component: AddRoom },
-  //RoomType
-  { path: "/admin/roomtype", component: RoomType },
-  { path: "/admin/roomtype/:id", component: RoomTypeDetail },
-  { path: "/admin/roomtype/create", component: AddRoomType },
-  { path: "/admin/roomtype/edit/:id", component: EditRoomType },
-  //Staff
-  { path: "/admin/staff", component: Staff },
-  { path: "/admin/staff/:id", component: StaffDetail },
-  { path: "/admin/staff/create", component: AddStaff },
-  { path: "/admin/staff/edit/:id", component: EditStaff },
-  //Invoice
-  { path: "/admin/invoice", component: Invoice },
-  { path: "/admin/invoice/:id", component: InvoiceDetail },
-  { path: "/admin/invoice/pdf/:id", component: InvoicePDF },
-  //Service
-  { path: "/admin/service", component: Service },
-  { path: "/admin/service/:id", component: ServiceDetail },
-  { path: "/admin/service/create", component: AddService },
-  { path: "/admin/service/edit/:id", component: EditService },
-  //Registration
-  { path: "/admin/registration", component: Registration },
-  { path: "/admin/registration/:id", component: RegistrationDetail },
-  { path: "/admin/registration/create", component: AddRegistration },
-  { path: "/admin/registration/edit/:id", component: EditRegistration },
-  //Auth
-  { path: "/admin/login", component: AdminLogin, layout: null },
+    { path: "/admin", component: AdminHome },
+    //Guest
+    { path: "/admin/guest", component: Guest },
+    { path: "/admin/guest/:id", component: GuestDetail },
+    { path: "/admin/guest/create", component: AddGuest },
+    { path: "/admin/guest/edit/:id", component: EditGuest },
+    //Room
+    { path: "/admin/rooms", component: Rooms },
+    { path: "/admin/rooms/:id", component: RoomDetail },
+    { path: "/admin/rooms/create", component: AddRoom },
+    //RoomType
+    { path: "/admin/roomtype", component: RoomType },
+    { path: "/admin/roomtype/:id", component: RoomTypeDetail },
+    { path: "/admin/roomtype/create", component: AddRoomType },
+    { path: "/admin/roomtype/edit/:id", component: EditRoomType },
+    //Staff
+    { path: "/admin/staff", component: Staff },
+    { path: "/admin/staff/:id", component: StaffDetail },
+    { path: "/admin/staff/create", component: AddStaff },
+    { path: "/admin/staff/edit/:id", component: EditStaff },
+    //Invoice
+    { path: "/admin/invoice", component: Invoice },
+    { path: "/admin/invoice/:id", component: InvoiceDetail },
+    { path: "/admin/invoice/pdf/:id", component: InvoicePDF },
+    //Service
+    { path: "/admin/service", component: Service },
+    { path: "/admin/service/:id", component: ServiceDetail },
+    { path: "/admin/service/create", component: AddService },
+    { path: "/admin/service/edit/:id", component: EditService },
+    //Registration
+    { path: "/admin/registration", component: Registration },
+    { path: "/admin/registration/:id", component: RegistrationDetail },
+    { path: "/admin/registration/create", component: AddRegistration },
+    { path: "/admin/registration/edit/:id", component: EditRegistration },
+    //Auth
+    { path: "/admin/login", component: AdminLogin, layout: null },
 ];
 
 const privateAdminRoute = [];

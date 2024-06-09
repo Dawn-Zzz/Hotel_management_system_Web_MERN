@@ -400,7 +400,7 @@ const BookingForm = () => {
                 </div>
             ) : (
                 <div className="h-screen w-screen flex flex-col justify-center items-center">
-                    <p className="text-[40px]">Page not found</p>
+                    <p className="text-[40px]">403 Forbidden</p>
                     <i class="fa-regular fa-cloud-exclamation text-[60px]"></i>
                 </div>
             )}

@@ -43,17 +43,9 @@ const Header = () => {
                             </Link>
                         </li>
                         <li>
-                            <details>
-                                <summary>User name</summary>
-                                <ul className="p-2 bg-base-100 rounded-se-none text-slate-900">
-                                    <li>
-                                        <a>Link 1</a>
-                                    </li>
-                                    <li>
-                                        <a>Log out</a>
-                                    </li>
-                                </ul>
-                            </details>
+                            <Link className="font-semibold mx-2" to="/search">
+                                Search
+                            </Link>
                         </li>
                     </ul>
                 </div>
