@@ -30,8 +30,10 @@ const Invoice = () => {
             setIsLoading(false);
         } catch (error) {
             console.error(error);
+            setIsLoading(false);
         }
     };
+
     const getGuest = async () => {
         try {
             setIsLoading(true);
@@ -44,8 +46,10 @@ const Invoice = () => {
             setIsLoading(false);
         } catch (error) {
             console.error(error);
+            setIsLoading(false);
         }
     };
+
     const getStaff = async () => {
         try {
             setIsLoading(true);
@@ -58,8 +62,18 @@ const Invoice = () => {
             setIsLoading(false);
         } catch (error) {
             console.error(error);
+            setIsLoading(false);
         }
     };
+
+    const calculateTotal = (bill, guest) => {
+        const { roomCharge, serviceCharge, discount } = bill;
+        if (guest?.guestCategories === 'Vip' && discount) {
+            return roomCharge + serviceCharge - discount;
+        }
+        return roomCharge + serviceCharge;
+    };
+
     return isLoading ? (
         <Loading />
     ) : (
@@ -75,63 +89,65 @@ const Invoice = () => {
                         placeholder="Input phone number"
                     />
                     <button className="border-2 border-l-0 bg-white hover:bg-gray-50 outline-none px-4 rounded-e-lg">
-                        <i class="fa-sharp fa-solid fa-xmark text-gray-500"></i>
+                        <i className="fa-sharp fa-solid fa-xmark text-gray-500"></i>
                     </button>
                 </div>
-                <table className=" rounded-lg text-left m-4 mt-0 bg-white overflow-hidden">
-                    <tr className="border bg-gray-100 rounded-lg overflow-hidden">
-                        <th className="text-gray-600 font-medium py-4 pl-4">
-                            Guest Name
-                        </th>
-                        <th className="text-gray-600 font-medium">
-                            Total Amount
-                        </th>
-                        <th className="text-gray-600 font-medium">
-                            Staff Name
-                        </th>
-                        <th className="text-gray-600 font-medium">
-                            Invoice Date
-                        </th>
-                        <th className="text-gray-600 font-medium text-center">
-                            Action
-                        </th>
-                    </tr>
-                    {bills.map((bill) => {
-                        const guest = guests.find((g) => g._id === bill.guest);
-                        const staff = staffs.find((s) => s._id === bill.staff);
-                        return (
-                            <tr className="border" key={bill._id}>
-                                <td className="py-4 text-gray-500 pl-4">
-                                    {guest?.name}
-                                </td>
-                                <td className="py-4 text-gray-500">
-                                    {bill.roomCharge + bill.serviceCharge}
-                                </td>
-                                <td className="py-4 text-gray-500">
-                                    {staff?.name}
-                                </td>
-                                <td className="py-4 text-gray-500">
-                                    {new Date(
-                                        bill.createdAt
-                                    ).toLocaleDateString()}
-                                </td>
-                                <td className="py-4 text-gray-500 text-center">
-                                    <Link
-                                        to={`/admin/invoice/${bill._id}`}
-                                        className="text-purple-700 bg-purple-200 py-1 px-4 rounded-full mr-1"
-                                    >
-                                        Detail
-                                    </Link>
-                                    <Link
-                                        to={`/admin/invoice/pdf/${bill._id}`}
-                                        className="text-purple-700 bg-purple-200 py-1 px-4 rounded-full ml-1"
-                                    >
-                                        PDF
-                                    </Link>
-                                </td>
-                            </tr>
-                        );
-                    })}
+                <table className="rounded-lg text-left m-4 mt-0 bg-white overflow-hidden">
+                    <thead>
+                        <tr className="border bg-gray-100 rounded-lg overflow-hidden">
+                            <th className="text-gray-600 font-medium py-4 pl-4">
+                                Guest Name
+                            </th>
+                            <th className="text-gray-600 font-medium">
+                                Total Amount
+                            </th>
+                            <th className="text-gray-600 font-medium">
+                                Staff Name
+                            </th>
+                            <th className="text-gray-600 font-medium">
+                                Invoice Date
+                            </th>
+                            <th className="text-gray-600 font-medium text-center">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {bills.map((bill) => {
+                            const guest = guests.find((g) => g._id === bill.guest);
+                            const staff = staffs.find((s) => s._id === bill.staff);
+                            return (
+                                <tr className="border" key={bill._id}>
+                                    <td className="py-4 text-gray-500 pl-4">
+                                        {guest?.name}
+                                    </td>
+                                    <td className="py-4 text-gray-500">
+                                        {calculateTotal(bill, guest)}
+                                    </td>
+                                    <td className="py-4 text-gray-500">
+                                        {staff?.name}
+                                    </td>
+                                    <td className="py-4 text-gray-500">
+                                        {new Date(bill.createdAt).toLocaleDateString()}
+                                    </td>
+                                    <td className="py-4 text-gray-500 text-center">
+                                        <Link
+                                            to={`/admin/invoice/${bill._id}`}
+                                            className="text-purple-700 bg-purple-200 py-1 px-4 rounded-full mr-1"
+                                        >
+                                            Detail
+                                        </Link>
+                                        <Link
+                                            to={`/admin/invoice/pdf/${bill._id}`}
+                                            className="text-purple-700 bg-purple-200 py-1 px-4 rounded-full ml-1"
+                                        >
+                                            PDF
+                                        </Link>
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
                 </table>
             </div>
         </div>
