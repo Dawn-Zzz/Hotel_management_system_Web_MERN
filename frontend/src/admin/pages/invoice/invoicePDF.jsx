@@ -175,32 +175,39 @@ const InvoicePDF = () => {
               <Text style={[styles.text, styles.tableCell]}>Price</Text>
             </View>
             {data.booking.roomBookings.map((bookingId) => {
+              console.log("ID phòng",bookingId);
+              console.log("Dữ liệu phòng",data.roomsBooking);
               return data.roomsBooking.data
-                .filter((roomBooking) => roomBooking._id === bookingId)
-                .map((roomBooking) => {
-                  const room = data.rooms.data.find(
-                    (item) => item._id === roomBooking.room
-                  );
-                  const roomType = data.roomTypes.data.find(
-                    (roomtype) => roomtype._id === room.roomType
-                  );
-                  return (
-                    <View key={room._id} style={styles.tableRow}>
-                      <Text style={[styles.text, styles.tableCell]}>
-                        {roomType.name}
-                      </Text>
-                      <Text style={[styles.text, styles.tableCell]}>
-                        {room.roomNumber}
-                      </Text>
-                      <Text style={[styles.text, styles.tableCell]}>
-                        {roomBooking.headcount}
-                      </Text>
-                      <Text style={[styles.text, styles.tableCell]}>
-                        {roomType.price}
-                      </Text>
-                    </View>
-                  );
-                });
+              .filter((roomBooking) => roomBooking._id === bookingId)
+              .map((roomBooking) => {
+                const room = data.rooms.data.find(
+                  (item) => item._id === roomBooking.room
+                );
+                console.log("Room",room._id);
+                console.log("RoomBooking", roomBooking);
+                const roomType = data.roomTypes.data.find(
+                  (roomtype) => roomtype._id === room.roomType
+                );
+                console.log("roomtype",roomType);
+                return (
+                  <View key={room._id} style={styles.tableRow}>
+                    {console.log(room._id)}
+                    <Text style={[styles.text, styles.tableCell]}>
+                      {roomType.name}
+                      {console.log(roomType.name)}
+                    </Text>
+                    <Text style={[styles.text, styles.tableCell]}>
+                      {room.roomNumber}
+                    </Text>
+                    <Text style={[styles.text, styles.tableCell]}>
+                      {roomBooking.headcount}
+                    </Text>
+                    <Text style={[styles.text, styles.tableCell]}>
+                      {roomType.price}
+                    </Text>
+                  </View>
+                );
+              });
             })}
           </View>
         )}
@@ -228,6 +235,7 @@ const InvoicePDF = () => {
                         <View key={service._id} style={styles.tableRow}>
                           <Text style={[styles.text, styles.tableCell]}>
                             {service.name}
+                            {console.log(service.name)}
                           </Text>
                           <Text style={[styles.text, styles.tableCell]}>
                             {serviceBooking.quantity}
