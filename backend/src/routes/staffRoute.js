@@ -9,7 +9,7 @@ router.post("/logout", staffController.logout);
 router.post("/add", staffController.add);
 router.post("/edit/:id", staffController.edit);
 router.get("/viewListStaff/:currentPage", staffController.viewListStaff);
-router.get("/searchStaff/:currentPage&:keyword", staffController.searchStaff);
+router.get("/searchStaff/:currentPage/:keyword", staffController.searchStaff);
 router.get("/:id", staffController.getById);
 
 module.exports = router;

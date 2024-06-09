@@ -248,14 +248,14 @@ let searchGuest = async (req, res) => {
     const regex = new RegExp(keyword, "i");
 
     const count = await guestModel.countDocuments({
-      name: regex, // Tìm kiếm tiêu đề chứa từ khóa
+      $or: [{ name: regex }, { phoneNumber: regex }],
     });
 
     const offset = 12 * (currentPage - 1);
 
     const guest = await guestModel
       .find({
-        name: regex,
+        $or: [{ name: regex }, { phoneNumber: regex }],
       })
       .limit(12)
       .skip(offset)
@@ -264,7 +264,7 @@ let searchGuest = async (req, res) => {
     if (!guest || guest.length === 0) {
       throw {
         code: 1,
-        message: "Không có data nào",
+        message: "Không có dữ liệu nào",
       };
     }
 

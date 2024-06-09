@@ -7,8 +7,8 @@ router.post("/add", serviceController.add);
 router.post("/edit/:id", serviceController.edit);
 router.get("/viewListService/:currentPage", serviceController.viewListService);
 router.get(
-    "/searchService/:currentPage&:keyword",
-    serviceController.searchService
+  "/searchService/:currentPage/:keyword",
+  serviceController.searchService
 );
 router.get("/:id", serviceController.getById);
 

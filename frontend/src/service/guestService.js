@@ -5,12 +5,16 @@ export const viewListGuest = (currentPage) => {
   return apiBackend.get(`/api/guest/viewListGuest/${currentPage}`);
 };
 
+export const searchGuest = (currentPage, keyword) => {
+  return apiBackend.get(`/api/guest/searchGuest/${currentPage}/${keyword}`);
+};
+
 //get guest by id
 export const viewGuest = (id) => {
   return apiBackend.get(`/api/guest/${id}`);
 };
 
-//get guest by id
+//get guest by phone number
 export const getGuestByPhoneNumber = (phoneNumber) => {
   return apiBackend.get(`/api/guest/phoneNumber/${phoneNumber}`);
 };

@@ -386,14 +386,14 @@ let searchStaff = async (req, res) => {
     const regex = new RegExp(keyword, "i");
 
     const count = await staffModel.countDocuments({
-      name: regex, // Tìm kiếm tiêu đề chứa từ khóa
+      $or: [{ name: regex }, { phoneNumber: regex }],
     });
 
     const offset = 12 * (currentPage - 1);
 
     const staffs = await staffModel
       .find({
-        name: regex,
+        $or: [{ name: regex }, { phoneNumber: regex }],
       })
       .limit(12)
       .skip(offset)
