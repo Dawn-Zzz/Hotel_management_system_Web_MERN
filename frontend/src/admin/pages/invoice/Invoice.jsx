@@ -68,7 +68,7 @@ const Invoice = () => {
 
     const calculateTotal = (bill, guest) => {
         const { roomCharge, serviceCharge, discount } = bill;
-        if (guest?.guestCategories === 'Vip' && discount) {
+        if (guest?.guestCategories === "Vip" && discount) {
             return roomCharge + serviceCharge - discount;
         }
         return roomCharge + serviceCharge;
@@ -89,7 +89,7 @@ const Invoice = () => {
                         placeholder="Input phone number"
                     />
                     <button className="border-2 border-l-0 bg-white hover:bg-gray-50 outline-none px-4 rounded-e-lg">
-                        <i className="fa-sharp fa-solid fa-xmark text-gray-500"></i>
+                        <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
                     </button>
                 </div>
                 <table className="rounded-lg text-left m-4 mt-0 bg-white overflow-hidden">
@@ -114,8 +114,12 @@ const Invoice = () => {
                     </thead>
                     <tbody>
                         {bills.map((bill) => {
-                            const guest = guests.find((g) => g._id === bill.guest);
-                            const staff = staffs.find((s) => s._id === bill.staff);
+                            const guest = guests.find(
+                                (g) => g._id === bill.guest
+                            );
+                            const staff = staffs.find(
+                                (s) => s._id === bill.staff
+                            );
                             return (
                                 <tr className="border" key={bill._id}>
                                     <td className="py-4 text-gray-500 pl-4">
@@ -128,7 +132,9 @@ const Invoice = () => {
                                         {staff?.name}
                                     </td>
                                     <td className="py-4 text-gray-500">
-                                        {new Date(bill.createdAt).toLocaleDateString()}
+                                        {new Date(
+                                            bill.createdAt
+                                        ).toLocaleDateString()}
                                     </td>
                                     <td className="py-4 text-gray-500 text-center">
                                         <Link

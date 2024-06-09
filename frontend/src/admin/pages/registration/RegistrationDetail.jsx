@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import {
-    viewListRoomType,
-    viewRoomtype,
-} from "../../../service/roomTypeService";
-import { viewListRoom, viewRoom } from "../../../service/roomService";
+import { viewListRoomType } from "../../../service/roomTypeService";
+import { viewListRoom } from "../../../service/roomService";
 import Loading from "../../../components/loading/Loading";
 import {
     viewBooking,
     viewListRoomBooking,
     viewListServiceBooking,
-    viewRoomBooking,
 } from "../../../service/bookingService";
 import { viewGuest } from "../../../service/guestService";
 import { viewListService } from "../../../service/serviceService";
@@ -33,7 +29,7 @@ const RegistrationDetail = () => {
         getServiceBooking();
         getService();
     }, []);
-    console.log("Haha",booking);
+    console.log("Haha", booking);
     const getBooking = async () => {
         try {
             setIsLoading(true);
@@ -96,7 +92,7 @@ const RegistrationDetail = () => {
             console.error(error);
         }
     };
-    console.log("Hihi",booking);
+    console.log("Hihi", booking);
     return isLoading ? (
         <Loading />
     ) : (
