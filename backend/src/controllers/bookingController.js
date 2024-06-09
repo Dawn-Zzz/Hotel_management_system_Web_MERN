@@ -178,6 +178,12 @@ let editBooking = async (req, res) => {
         0
       );
 
+      const guest = await guestModel.findById(booking.guest);
+      let discount = 0;
+      if (guest && guest.guestCategories === "Vip") {
+        discount = 0.1 * (roomCharge + serviceCharge);
+      }
+
       //Create a new bill
       bill = await billModel.create({
         guest: booking.guest,
@@ -185,6 +191,7 @@ let editBooking = async (req, res) => {
         booking: id,
         roomCharge: roomCharge,
         serviceCharge: serviceCharge,
+        discount: discount,
       });
     }
 

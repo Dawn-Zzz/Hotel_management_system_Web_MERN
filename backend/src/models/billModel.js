@@ -12,6 +12,7 @@ const billSchema = new mongoose.Schema(
     booking: { type: mongoose.Schema.Types.ObjectId, ref: "Booking" },
     roomCharge: { type: Number, required: true },
     serviceCharge: { type: Number },
+    discount: { type: Number },
   },
   { timestamps: true }
 );
