@@ -45,7 +45,6 @@ let login = async (req, res) => {
 
     // Lưu token vào cookie
     res.cookie("token", token, {
-
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 1 ngày
     });
@@ -68,7 +67,6 @@ let logout = async (req, res) => {
   try {
     // xóa cookie
     res.clearCookie("token");
-
 
     res.status(200).json({
       code: 0,
@@ -219,7 +217,6 @@ let edit = async (req, res) => {
     if (
       !data.name ||
       !data.username ||
-      !data.password ||
       !data.phoneNumber ||
       !data.IDnumber ||
       !data.dateOfBirth ||
@@ -297,19 +294,31 @@ let edit = async (req, res) => {
       };
     }
 
+    let hashedPassword = null;
+    if (data.password) {
+      hashedPassword = await bcrypt.hash(data.password, 10);
+    }
+
+    // Create the update object
+    let updateData = {
+      name: data.name,
+      username: data.username,
+      phoneNumber: data.phoneNumber,
+      IDnumber: data.IDnumber,
+      dateOfBirth: data.dateOfBirth,
+      role: data.role,
+    };
+
+    // Conditionally add the password to the update object
+    if (hashedPassword) {
+      updateData.password = hashedPassword;
+    }
+
     // Cập nhật thông tin nhân viên
     let existingStaff = await staffModel.findByIdAndUpdate(
       id,
       {
-        $set: {
-          name: data.name,
-          username: data.username,
-          password: data.password,
-          phoneNumber: data.phoneNumber,
-          IDnumber: data.IDnumber,
-          dateOfBirth: data.dateOfBirth,
-          role: data.role,
-        },
+        $set: updateData,
       },
       { new: true }
     );
