@@ -7,9 +7,9 @@ import { viewStaff } from "../../../service/staffService";
 
 const InvoiceDetail = () => {
     const { id } = useParams();
-    const [bill, setBill] = useState([]);
-    const [guest, setGuest] = useState([]);
-    const [staff, setStaff] = useState([]);
+    const [bill, setBill] = useState({});
+    const [guest, setGuest] = useState({});
+    const [staff, setStaff] = useState({});
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -28,9 +28,18 @@ const InvoiceDetail = () => {
             setIsLoading(false);
         } catch (error) {
             console.error(error);
+            setIsLoading(false);
         }
     };
-    console.log(bill);
+
+    const calculateTotal = () => {
+        const { roomCharge, serviceCharge, discount } = bill;
+        if (guest.guestCategories === 'Vip' && discount) {
+            return roomCharge + serviceCharge - discount;
+        }
+        return roomCharge + serviceCharge;
+    };
+
     return isLoading ? (
         <Loading />
     ) : (
@@ -44,20 +53,38 @@ const InvoiceDetail = () => {
                     <p className="text-gray-500">{guest.name}</p>
                 </div>
                 <div className="flex py-3 border-b">
-                    <p className="font-semibold mr-4">Total Amount: </p>
-                    <p className="text-gray-500">{bill.roomCharge + bill.serviceCharge}</p>
-                </div>
-                <div className="flex py-3 border-b">
                     <p className="font-semibold mr-4">Staff Name: </p>
                     <p className="text-gray-500">{staff.name}</p>
                 </div>
                 <div className="flex py-3 border-b">
                     <p className="font-semibold mr-4">Invoice Date: </p>
                     <p className="text-gray-500">
-                        {new Date(
-                            bill.createdAt
-                        ).toLocaleDateString()}
+                        {new Date(bill.createdAt).toLocaleDateString()}
                     </p>
+                </div>
+                <div className="flex py-3 border-b">
+                    <p className="font-semibold mr-4">Room Charge: </p>
+                    <p className="text-gray-500">{bill.roomCharge}</p>
+                </div>
+                <div className="flex py-3 border-b">
+                    <p className="font-semibold mr-4">Service Charge: </p>
+                    <p className="text-gray-500">{bill.serviceCharge}</p>
+                </div>
+                {guest.guestCategories === 'Vip' && bill.discount && (
+                    <>
+                        <div className="flex py-3 border-b">
+                            <p className="font-semibold mr-4">Subtotal: </p>
+                            <p className="text-gray-500">{bill.roomCharge + bill.serviceCharge}</p>
+                        </div>
+                        <div className="flex py-3 border-b">
+                            <p className="font-semibold mr-4">Discount: </p>
+                            <p className="text-gray-500">{bill.discount}</p>
+                        </div>
+                    </>
+                )}
+                <div className="flex py-3 border-b">
+                    <p className="font-semibold mr-4">Total Amount: </p>
+                    <p className="text-gray-500">{calculateTotal()}</p>
                 </div>
                 <div className="flex flex-col">
                     <Link

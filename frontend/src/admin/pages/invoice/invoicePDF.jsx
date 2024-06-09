@@ -37,7 +37,8 @@ Font.register({
 // Define styles for PDF
 const styles = StyleSheet.create({
   page: {
-    padding: 10,
+    padding: 40,
+    backgroundColor: "#f5f5f0"
   },
   section: {
     margin: 3,
@@ -66,10 +67,11 @@ const styles = StyleSheet.create({
   },
   tableRow: {
     flexDirection: "row",
+    borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderBottomColor: "#000",
-    paddingBottom: 5,
-    marginBottom: 5,
+    borderColor: "#000",
+    padding: 5,
+    // marginBottom: 5,
   },
   tableCell: {
     flex: 1,
@@ -131,6 +133,15 @@ const InvoicePDF = () => {
     return <Loading />;
   }
 
+  // Calculate total with discount if applicable
+  const calculateTotal = () => {
+    const { roomCharge, serviceCharge, discount } = data.bill;
+    if (data.guest.guestCategories === 'Vip' && discount) {
+      return roomCharge + serviceCharge - discount;
+    }
+    return roomCharge + serviceCharge;
+  };
+
   // Render PDF
   const MyDocument = () => (
     <Document>
@@ -175,39 +186,39 @@ const InvoicePDF = () => {
               <Text style={[styles.text, styles.tableCell]}>Price</Text>
             </View>
             {data.booking.roomBookings.map((bookingId) => {
-              console.log("ID phòng",bookingId);
-              console.log("Dữ liệu phòng",data.roomsBooking);
+              console.log("ID phòng", bookingId);
+              console.log("Dữ liệu phòng", data.roomsBooking);
               return data.roomsBooking.data
-              .filter((roomBooking) => roomBooking._id === bookingId)
-              .map((roomBooking) => {
-                const room = data.rooms.data.find(
-                  (item) => item._id === roomBooking.room
-                );
-                console.log("Room",room._id);
-                console.log("RoomBooking", roomBooking);
-                const roomType = data.roomTypes.data.find(
-                  (roomtype) => roomtype._id === room.roomType
-                );
-                console.log("roomtype",roomType);
-                return (
-                  <View key={room._id} style={styles.tableRow}>
-                    {console.log(room._id)}
-                    <Text style={[styles.text, styles.tableCell]}>
-                      {roomType.name}
-                      {console.log(roomType.name)}
-                    </Text>
-                    <Text style={[styles.text, styles.tableCell]}>
-                      {room.roomNumber}
-                    </Text>
-                    <Text style={[styles.text, styles.tableCell]}>
-                      {roomBooking.headcount}
-                    </Text>
-                    <Text style={[styles.text, styles.tableCell]}>
-                      {roomType.price}
-                    </Text>
-                  </View>
-                );
-              });
+                .filter((roomBooking) => roomBooking._id === bookingId)
+                .map((roomBooking) => {
+                  const room = data.rooms.data.find(
+                    (item) => item._id === roomBooking.room
+                  );
+                  console.log("Room", room._id);
+                  console.log("RoomBooking", roomBooking);
+                  const roomType = data.roomTypes.data.find(
+                    (roomtype) => roomtype._id === room.roomType
+                  );
+                  console.log("roomtype", roomType);
+                  return (
+                    <View key={room._id} style={styles.tableRow}>
+                      {console.log(room._id)}
+                      <Text style={[styles.text, styles.tableCell]}>
+                        {roomType.name}
+                        {console.log(roomType.name)}
+                      </Text>
+                      <Text style={[styles.text, styles.tableCell]}>
+                        {room.roomNumber}
+                      </Text>
+                      <Text style={[styles.text, styles.tableCell]}>
+                        {roomBooking.headcount}
+                      </Text>
+                      <Text style={[styles.text, styles.tableCell]}>
+                        {roomType.price}
+                      </Text>
+                    </View>
+                  );
+                });
             })}
           </View>
         )}
@@ -265,9 +276,10 @@ const InvoicePDF = () => {
               <Text style={styles.text}>
                 Service Charge: {data.bill.serviceCharge}
               </Text>
-              <Text style={styles.text}>
-                Total: {data.bill.roomCharge + data.bill.serviceCharge}
-              </Text>
+              {data.guest.guestCategories === 'Vip' && data.bill.discount && (
+                <Text style={styles.text}>Discount: {data.bill.discount}</Text>
+              )}
+              <Text style={styles.text}>Total: {calculateTotal()}</Text>
             </View>
           </View>
         )}
