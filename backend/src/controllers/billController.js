@@ -1,4 +1,6 @@
 const billModel = require("../models/billModel");
+const guestModel = require("../models/guestModel");
+const staffModel = require("../models/staffModel");
 
 let viewListBill = async (req, res) => {
   try {
@@ -31,6 +33,74 @@ let viewListBill = async (req, res) => {
     res.status(200).json({
       code: error.code || 1,
       message: error.message || "Lỗi: viewListBill",
+    });
+  }
+};
+
+let searchBill = async (req, res) => {
+  try {
+    const currentPage = parseInt(req.params.currentPage) || 1;
+    const keyword = req.params.keyword || null;
+
+    if (!keyword) {
+      throw {
+        code: 1,
+        message: "Hãy nhập nội dung tìm kiếm",
+      };
+    }
+    const regex = new RegExp(keyword, "i");
+
+    const offset = 12 * (currentPage - 1);
+
+    // Tìm các khách hàng phù hợp hoặc nhân viên phù hợp
+    const guests = await guestModel.find({
+      name: regex,
+    });
+
+    const staffs = await staffModel.find({
+      name: regex,
+    });
+
+    if ((!guests || guests.length === 0) && (!staffs || staffs.length === 0)) {
+      throw {
+        code: 1,
+        message: "Không tìm thấy khách hàng hoặc nhân viên nào phù hợp",
+      };
+    }
+
+    const guestIds = guests.map((guest) => guest._id);
+    const staffIds = staffs.map((staff) => staff._id);
+
+    // Tìm các hóa đơn của các khách hàng hoặc nhân viên này
+    const bills = await billModel
+      .find({
+        $or: [{ guest: { $in: guestIds } }, { staff: { $in: staffIds } }],
+      })
+      .limit(12)
+      .skip(offset)
+      .sort({ createdAt: -1 });
+
+    const count = await billModel.countDocuments({
+      $or: [{ guest: { $in: guestIds } }, { staff: { $in: staffIds } }],
+    });
+
+    if (!bills || bills.length === 0) {
+      throw {
+        code: 1,
+        message: "Không có dữ liệu nào",
+      };
+    }
+
+    res.status(200).json({
+      code: 0,
+      message: "Tìm kiếm thành công",
+      count: count,
+      data: bills,
+    });
+  } catch (error) {
+    res.status(200).json({
+      code: error.code || 1,
+      message: error.message || "Lỗi: searchBill",
     });
   }
 };
@@ -103,6 +173,7 @@ const getRevenueByMonthYear = async (req, res) => {
 
 module.exports = {
   viewListBill,
+  searchBill,
   getById,
   getRevenueByMonthYear,
 };
