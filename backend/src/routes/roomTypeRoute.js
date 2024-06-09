@@ -14,7 +14,7 @@ router.get(
   roomTypeController.viewListRoomType
 );
 router.get(
-  "/searchRoomType/:currentPage&:keyword",
+  "/searchRoomType/:currentPage/:keyword",
   roomTypeController.searchRoomType
 );
 router.get("/:id", roomTypeController.getById);

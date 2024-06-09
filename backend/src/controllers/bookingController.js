@@ -178,12 +178,6 @@ let editBooking = async (req, res) => {
         0
       );
 
-      const guest = await guestModel.findById(booking.guest);
-      let discount = 0;
-      if (guest && guest.guestCategories === "Vip") {
-        discount = 0.1 * (roomCharge + serviceCharge);
-      }
-
       //Create a new bill
       bill = await billModel.create({
         guest: booking.guest,
@@ -191,7 +185,6 @@ let editBooking = async (req, res) => {
         booking: id,
         roomCharge: roomCharge,
         serviceCharge: serviceCharge,
-        discount: discount,
       });
     }
 
@@ -215,6 +208,66 @@ let editBooking = async (req, res) => {
     res.status(200).json({
       code: error.code || 1,
       message: error.message || "Đã có lỗi xảy ra: Booking",
+    });
+  }
+};
+
+let searchBooking = async (req, res) => {
+  try {
+    const currentPage = parseInt(req.params.currentPage) || 1;
+    const keyword = req.params.keyword || null;
+
+    if (!keyword) {
+      throw {
+        code: 1,
+        message: "Hãy nhập nội dung tìm kiếm",
+      };
+    }
+    const regex = new RegExp(keyword, "i");
+
+    const offset = 12 * (currentPage - 1);
+
+    const guests = await guestModel.find({
+      $or: [{ name: regex }, { phoneNumber: regex }],
+    });
+
+    if (!guests || guests.length === 0) {
+      throw {
+        code: 1,
+        message: "Không tìm thấy khách hàng nào phù hợp",
+      };
+    }
+
+    const guestIds = guests.map((guest) => guest._id);
+
+    // Tìm các đặt phòng của các khách hàng này
+    const bookings = await bookingModel
+      .find({ guest: { $in: guestIds } })
+      .limit(12)
+      .skip(offset)
+      .sort({ createdAt: -1 });
+
+    const count = await bookingModel.countDocuments({
+      guest: { $in: guestIds },
+    });
+
+    if (!bookings || bookings.length === 0) {
+      throw {
+        code: 1,
+        message: "Không có dữ liệu nào",
+      };
+    }
+
+    res.status(200).json({
+      code: 0,
+      message: "Tìm kiếm thành công",
+      count: count,
+      data: bookings,
+    });
+  } catch (error) {
+    res.status(200).json({
+      code: error.code || 1,
+      message: error.message || "Lỗi: searchBooking",
     });
   }
 };
@@ -409,7 +462,7 @@ let getServiceBookingById = async (req, res) => {
   }
 };
 
-let searchBooking = async (req, res) => {
+let searchBookingByPhoneNumber = async (req, res) => {
   try {
     const currentPage = parseInt(req.params.currentPage) || 1;
     const keyword = req.params.keyword || null;
@@ -498,6 +551,7 @@ const getBookingCountByMonthYear = async (req, res) => {
 module.exports = {
   createBooking,
   editBooking,
+  searchBooking,
   getAvailableRooms,
   viewListBooking,
   viewListRoomBooking,
@@ -505,6 +559,6 @@ module.exports = {
   getById,
   getRoomBookingById,
   getServiceBookingById,
-  searchBooking,
+  searchBookingByPhoneNumber,
   getBookingCountByMonthYear,
 };

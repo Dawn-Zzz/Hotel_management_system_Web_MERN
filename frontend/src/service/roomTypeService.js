@@ -4,6 +4,12 @@ export const viewListRoomType = (currentPage) => {
   return apiBackend.get(`/api/roomtype/viewListRoomType/${currentPage}`);
 };
 
+export const searchRoomtype = (currentPage, keyword) => {
+  return apiBackend.get(
+    `/api/roomtype/searchRoomtype/${currentPage}/${keyword}`
+  );
+};
+
 export const addNewRoomType = (data) => {
   return apiBackend.post(`/api/roomtype/add`, data);
 };

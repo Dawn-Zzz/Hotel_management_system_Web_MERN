@@ -67,7 +67,7 @@ const Service = () => {
           <input
             type="text"
             className="border-2 outline-none px-4 py-2 w-full rounded-s-lg"
-            placeholder="Input name service"
+            placeholder="Input name of service"
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
             onKeyDown={(e) => {
