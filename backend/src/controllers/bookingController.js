@@ -402,6 +402,37 @@ let getServiceBookingById = async (req, res) => {
   }
 };
 
+const getBookingCountByMonthYear = async (req, res) => {
+  try {
+    const { month, year } = req.params;
+    const startDate = new Date(year, month - 1, 1); // month - 1 vì tháng bắt đầu từ 0 (0 - 11)
+    const endDate = new Date(year, month, 0); // Ngày cuối cùng của tháng trước
+
+    const totalBookingCount = await bookingModel.countDocuments({
+      createdAt: { $gte: startDate, $lte: endDate },
+    });
+
+    const canceledBookingCount = await bookingModel.countDocuments({
+      createdAt: { $gte: startDate, $lte: endDate },
+      roomInteraction: "Đã hủy phòng",
+    });
+
+    res.status(200).json({
+      code: 0,
+      message: "Lấy số lượng booking thành công",
+      data: {
+        totalBookingCount: totalBookingCount,
+        canceledBookingCount: canceledBookingCount,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      code: 1,
+      message: "Đã có lỗi xảy ra: getBookingCountByMonthYear",
+    });
+  }
+};
+
 module.exports = {
   createBooking,
   editBooking,
@@ -412,4 +443,5 @@ module.exports = {
   getById,
   getRoomBookingById,
   getServiceBookingById,
+  getBookingCountByMonthYear,
 };

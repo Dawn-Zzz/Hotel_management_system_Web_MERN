@@ -18,5 +18,9 @@ router.get(
 router.get("/view/:id", bookingController.getById);
 router.get("/view/roombooking/:id", bookingController.getRoomBookingById);
 router.get("/view/servicebooking/:id", bookingController.getServiceBookingById);
+router.get(
+  "/bookingcount/:year/:month",
+  bookingController.getBookingCountByMonthYear
+);
 
 module.exports = router;
