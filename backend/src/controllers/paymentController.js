@@ -13,10 +13,9 @@ let payment = async (req, res) => {
     const { amount, bookingInfo } = req.body;
     const orderInfo = "Hotel Payment With Momo";
     const partnerCode = "MOMO";
-    const redirectUrl =
-        "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b";
+    const redirectUrl = "http://localhost:3000";
     const ipnUrl =
-        "https://393a-2a09-bac5-d46d-16d2-00-246-78.ngrok-free.app/api/payment/callback";
+        "https://3472-2a09-bac1-7aa0-10-00-19b-136.ngrok-free.app/api/payment/callback";
     const requestType = "payWithMethod";
     const orderId = partnerCode + new Date().getTime();
     const requestId = orderId;

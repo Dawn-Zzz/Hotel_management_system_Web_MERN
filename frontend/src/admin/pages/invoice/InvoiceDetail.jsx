@@ -4,6 +4,7 @@ import { viewGuest } from "../../../service/guestService";
 import { Link, useParams } from "react-router-dom";
 import Loading from "../../../components/loading/Loading";
 import { viewStaff } from "../../../service/staffService";
+import formatNumber from "../../../utils/formatNumber";
 
 const InvoiceDetail = () => {
     const { id } = useParams();
@@ -34,7 +35,7 @@ const InvoiceDetail = () => {
 
     const calculateTotal = () => {
         const { roomCharge, serviceCharge, discount } = bill;
-        if (guest.guestCategories === 'Vip' && discount) {
+        if (guest.guestCategories === "Vip" && discount) {
             return roomCharge + serviceCharge - discount;
         }
         return roomCharge + serviceCharge;
@@ -64,27 +65,40 @@ const InvoiceDetail = () => {
                 </div>
                 <div className="flex py-3 border-b">
                     <p className="font-semibold mr-4">Room Charge: </p>
-                    <p className="text-gray-500">{bill.roomCharge}</p>
+                    <p className="text-gray-500">
+                        {formatNumber(bill.roomCharge)} VND
+                    </p>
                 </div>
                 <div className="flex py-3 border-b">
                     <p className="font-semibold mr-4">Service Charge: </p>
-                    <p className="text-gray-500">{bill.serviceCharge}</p>
+                    <p className="text-gray-500">
+                        {formatNumber(bill.serviceCharge)} VND
+                    </p>
                 </div>
-                {guest.guestCategories === 'Vip' && bill.discount && (
+                {guest.guestCategories === "Vip" && bill.discount && (
                     <>
                         <div className="flex py-3 border-b">
                             <p className="font-semibold mr-4">Subtotal: </p>
-                            <p className="text-gray-500">{bill.roomCharge + bill.serviceCharge}</p>
+                            <p className="text-gray-500">
+                                {formatNumber(
+                                    bill.roomCharge + bill.serviceCharge
+                                )}{" "}
+                                VND
+                            </p>
                         </div>
                         <div className="flex py-3 border-b">
                             <p className="font-semibold mr-4">Discount: </p>
-                            <p className="text-gray-500">{bill.discount}</p>
+                            <p className="text-gray-500">
+                                {formatNumber(bill.discount)} VND
+                            </p>
                         </div>
                     </>
                 )}
                 <div className="flex py-3 border-b">
                     <p className="font-semibold mr-4">Total Amount: </p>
-                    <p className="text-gray-500">{calculateTotal()}</p>
+                    <p className="text-gray-500">
+                        {formatNumber(calculateTotal())} VND
+                    </p>
                 </div>
                 <div className="flex flex-col">
                     <Link

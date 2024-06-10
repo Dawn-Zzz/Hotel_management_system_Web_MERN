@@ -37,7 +37,7 @@ const RegistrationModal = ({ id, visible, onClose }) => {
     const getRoomBooking = async () => {
         try {
             setIsLoading(true);
-            const roomBooking = await viewListRoomBooking(1);
+            const roomBooking = await viewListRoomBooking(-1);
             setRoomsBooking(roomBooking);
             setIsLoading(false);
         } catch (error) {
@@ -47,7 +47,7 @@ const RegistrationModal = ({ id, visible, onClose }) => {
     const getRoom = async () => {
         try {
             setIsLoading(true);
-            const room = await viewListRoom(1);
+            const room = await viewListRoom(-1);
             setRooms(room);
             setIsLoading(false);
         } catch (error) {
@@ -57,7 +57,7 @@ const RegistrationModal = ({ id, visible, onClose }) => {
     const getRoomType = async () => {
         try {
             setIsLoading(true);
-            const roomtype = await viewListRoomType(1);
+            const roomtype = await viewListRoomType(-1);
             setRoomTypes(roomtype);
             setIsLoading(false);
         } catch (error) {
@@ -67,7 +67,7 @@ const RegistrationModal = ({ id, visible, onClose }) => {
     const getServiceBooking = async () => {
         try {
             setIsLoading(true);
-            const serviceBooking = await viewListServiceBooking(1);
+            const serviceBooking = await viewListServiceBooking(-1);
             setServicesBooking(serviceBooking);
             setIsLoading(false);
         } catch (error) {
@@ -77,7 +77,7 @@ const RegistrationModal = ({ id, visible, onClose }) => {
     const getService = async () => {
         try {
             setIsLoading(true);
-            const service = await viewListService(1);
+            const service = await viewListService(-1);
             setServices(service);
             setIsLoading(false);
         } catch (error) {
