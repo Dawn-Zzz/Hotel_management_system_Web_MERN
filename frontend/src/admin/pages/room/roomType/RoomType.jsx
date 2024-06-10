@@ -5,6 +5,7 @@ import {
     viewListRoomType,
 } from "../../../../service/roomTypeService";
 import Loading from "../../../../components/loading/Loading";
+import formatNumber from "../../../../utils/formatNumber";
 
 const RoomType = () => {
     const [data, setData] = useState([]);
@@ -101,7 +102,7 @@ const RoomType = () => {
                                 {roomtype.name}
                             </td>
                             <td className="py-4 text-gray-500">
-                                {roomtype.price}
+                                {formatNumber(roomtype.price)} VND
                             </td>
                             <td className="py-4 text-gray-500">
                                 {roomtype.capacity}

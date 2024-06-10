@@ -5,6 +5,7 @@ import {
     viewListService,
 } from "../../../service/serviceService";
 import Loading from "../../../components/loading/Loading";
+import formatNumber from "../../../utils/formatNumber";
 
 const Service = () => {
     const [data, setData] = useState([]);
@@ -101,7 +102,7 @@ const Service = () => {
                                 {service.name}
                             </td>
                             <td className="py-4 text-gray-500">
-                                {service.price}
+                                {formatNumber(service.price)} VND
                             </td>
                             <td className="py-4 text-gray-500 text-center">
                                 <Link

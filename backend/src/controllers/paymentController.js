@@ -15,7 +15,7 @@ let payment = async (req, res) => {
     const partnerCode = "MOMO";
     const redirectUrl = "http://localhost:3000";
     const ipnUrl =
-        "https://3472-2a09-bac1-7aa0-10-00-19b-136.ngrok-free.app/api/payment/callback";
+        "https://8d85-171-250-188-49.ngrok-free.app/api/payment/callback";
     const requestType = "payWithMethod";
     const orderId = partnerCode + new Date().getTime();
     const requestId = orderId;
@@ -49,6 +49,7 @@ let payment = async (req, res) => {
         extraData,
         orderGroupId,
         signature,
+        orderExpireTime: 10,
     });
 
     const options = {

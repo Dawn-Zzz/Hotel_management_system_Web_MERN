@@ -44,7 +44,7 @@ const Header = () => {
                         </li>
                         <li>
                             <Link className="font-semibold mx-2" to="/search">
-                                Search
+                                Booking History
                             </Link>
                         </li>
                     </ul>

@@ -157,7 +157,8 @@ const Invoice = () => {
                                     <td className="py-4 text-gray-500">
                                         {formatNumber(
                                             calculateTotal(bill, guest)
-                                        )}
+                                        )}{" "}
+                                        VND
                                     </td>
                                     <td className="py-4 text-gray-500">
                                         {staff?.name}
