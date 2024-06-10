@@ -38,7 +38,7 @@ Font.register({
 const styles = StyleSheet.create({
   page: {
     padding: 40,
-    backgroundColor: "#f5f5f0"
+    backgroundColor: "#f5f5f0",
   },
   section: {
     margin: 3,
@@ -92,11 +92,11 @@ const InvoicePDF = () => {
         const bookingData = await viewBooking(billDetail.booking);
         const guestData = await viewGuest(billDetail.guest);
         const staffData = await viewStaff(billDetail.staff);
-        const roomsBooking = await viewListRoomBooking(1);
-        const servicesBooking = await viewListServiceBooking(1);
-        const rooms = await viewListRoom(1);
-        const services = await viewListService(1);
-        const roomTypes = await viewListRoomType(1);
+        const roomsBooking = await viewListRoomBooking(-1);
+        const servicesBooking = await viewListServiceBooking(-1);
+        const rooms = await viewListRoom(-1);
+        const services = await viewListService(-1);
+        const roomTypes = await viewListRoomType(-1);
 
         setData({
           bill: billDetail,
@@ -136,7 +136,7 @@ const InvoicePDF = () => {
   // Calculate total with discount if applicable
   const calculateTotal = () => {
     const { roomCharge, serviceCharge, discount } = data.bill;
-    if (data.guest.guestCategories === 'Vip' && discount) {
+    if (data.guest.guestCategories === "Vip" && discount) {
       return roomCharge + serviceCharge - discount;
     }
     return roomCharge + serviceCharge;
@@ -276,7 +276,7 @@ const InvoicePDF = () => {
               <Text style={styles.text}>
                 Service Charge: {data.bill.serviceCharge}
               </Text>
-              {data.guest.guestCategories === 'Vip' && data.bill.discount && (
+              {data.guest.guestCategories === "Vip" && data.bill.discount && (
                 <Text style={styles.text}>Discount: {data.bill.discount}</Text>
               )}
               <Text style={styles.text}>Total: {calculateTotal()}</Text>

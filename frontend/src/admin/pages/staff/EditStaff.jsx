@@ -153,6 +153,7 @@ const EditStaff = () => {
           <p className="text-gray-500">Password</p>
           <input
             type="text"
+            name="password"
             value={password}
             onChange={handleChange}
             className="w-3/4 outline-none rounded-lg p-2 border-gray-300 border mt-2"

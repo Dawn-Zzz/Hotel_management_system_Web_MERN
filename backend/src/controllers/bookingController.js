@@ -95,12 +95,12 @@ let editBooking = async (req, res) => {
     const checkin = booking.checkin.toISOString().split("T")[0];
 
     if (roomInteraction === "Đã nhận phòng") {
-      if (checkin > currentDate) {
-        throw {
-          code: 1,
-          message: "Chưa tới ngày nhận phòng",
-        };
-      }
+      // if (checkin > currentDate) {
+      //   throw {
+      //     code: 1,
+      //     message: "Chưa tới ngày nhận phòng",
+      //   };
+      // }
       // Update hiện trạng phòng
       const roomBookingIds = booking.roomBookings.map((rb) => rb.room);
       await roomModel.updateMany(
@@ -317,19 +317,27 @@ const getAvailableRooms = async (req, res) => {
 
 let viewListBooking = async (req, res) => {
   try {
-    const currentPage = req.params.currentPage || 1;
+    const currentPage = parseInt(req.params.currentPage) || 1;
 
-    const count = await bookingModel.countDocuments();
+    let bookings;
+    let count;
 
-    const offset = 12 * (currentPage - 1);
+    if (currentPage === -1) {
+      // Lấy hết dữ liệu
+      bookings = await bookingModel.find().sort({ createdAt: -1 });
+      count = bookings.length;
+    } else {
+      count = await bookingModel.countDocuments();
+      const offset = 12 * (currentPage - 1);
 
-    const booking = await bookingModel
-      .find()
-      .limit(12)
-      .skip(offset)
-      .sort({ createdAt: -1 });
+      bookings = await bookingModel
+        .find()
+        .limit(12)
+        .skip(offset)
+        .sort({ createdAt: -1 });
+    }
 
-    if (!booking || booking.length === 0) {
+    if (!bookings || bookings.length === 0) {
       throw {
         code: 1,
         message: "Không có data nào",
@@ -338,9 +346,9 @@ let viewListBooking = async (req, res) => {
 
     res.status(200).json({
       code: 0,
-      message: "Lấy dự liệu thành công",
+      message: "Lấy dữ liệu thành công",
       count: count,
-      data: booking,
+      data: bookings,
     });
   } catch (error) {
     res.status(200).json({
@@ -352,19 +360,27 @@ let viewListBooking = async (req, res) => {
 
 let viewListRoomBooking = async (req, res) => {
   try {
-    const currentPage = req.params.currentPage || 1;
+    const currentPage = parseInt(req.params.currentPage) || 1;
 
-    const count = await roomBookingModel.countDocuments();
+    let roomBookings;
+    let count;
 
-    const offset = 12 * (currentPage - 1);
+    if (currentPage === -1) {
+      // Lấy hết dữ liệu
+      roomBookings = await roomBookingModel.find().sort({ createdAt: -1 });
+      count = roomBookings.length;
+    } else {
+      count = await roomBookingModel.countDocuments();
+      const offset = 12 * (currentPage - 1);
 
-    const roomBooking = await roomBookingModel
-      .find()
-      .limit(100)
-      .skip(offset)
-      .sort({ createdAt: -1 });
+      roomBookings = await roomBookingModel
+        .find()
+        .limit(12)
+        .skip(offset)
+        .sort({ createdAt: -1 });
+    }
 
-    if (!roomBooking || roomBooking.length === 0) {
+    if (!roomBookings || roomBookings.length === 0) {
       throw {
         code: 1,
         message: "Không có data nào",
@@ -373,33 +389,43 @@ let viewListRoomBooking = async (req, res) => {
 
     res.status(200).json({
       code: 0,
-      message: "Lấy dự liệu thành công",
+      message: "Lấy dữ liệu thành công",
       count: count,
-      data: roomBooking,
+      data: roomBookings,
     });
   } catch (error) {
     res.status(200).json({
       code: error.code || 1,
-      message: error.message || "Lỗi: viewListBooking",
+      message: error.message || "Lỗi: viewListRoomBooking",
     });
   }
 };
 
 let viewListServiceBooking = async (req, res) => {
   try {
-    const currentPage = req.params.currentPage || 1;
+    const currentPage = parseInt(req.params.currentPage) || 1;
 
-    const count = await serviceBookingModel.countDocuments();
+    let serviceBookings;
+    let count;
 
-    const offset = 12 * (currentPage - 1);
+    if (currentPage === -1) {
+      // Lấy hết dữ liệu
+      serviceBookings = await serviceBookingModel
+        .find()
+        .sort({ createdAt: -1 });
+      count = serviceBookings.length;
+    } else {
+      count = await serviceBookingModel.countDocuments();
+      const offset = 12 * (currentPage - 1);
 
-    const serviceBooking = await serviceBookingModel
-      .find()
-      .limit(100)
-      .skip(offset)
-      .sort({ createdAt: -1 });
+      serviceBookings = await serviceBookingModel
+        .find()
+        .limit(12)
+        .skip(offset)
+        .sort({ createdAt: -1 });
+    }
 
-    if (!serviceBooking || serviceBooking.length === 0) {
+    if (!serviceBookings || serviceBookings.length === 0) {
       throw {
         code: 1,
         message: "Không có data nào",
@@ -408,14 +434,14 @@ let viewListServiceBooking = async (req, res) => {
 
     res.status(200).json({
       code: 0,
-      message: "Lấy dự liệu thành công",
+      message: "Lấy dữ liệu thành công",
       count: count,
-      data: serviceBooking,
+      data: serviceBookings,
     });
   } catch (error) {
     res.status(200).json({
       code: error.code || 1,
-      message: error.message || "Lỗi: viewListBooking",
+      message: error.message || "Lỗi: viewListServiceBooking",
     });
   }
 };

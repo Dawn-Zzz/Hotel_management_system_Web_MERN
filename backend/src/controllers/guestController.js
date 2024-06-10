@@ -200,19 +200,27 @@ let edit = async (req, res) => {
 
 let viewListGuest = async (req, res) => {
   try {
-    const currentPage = req.params.currentPage || 1;
+    const currentPage = parseInt(req.params.currentPage) || 1;
 
-    const count = await guestModel.countDocuments();
+    let guests;
+    let count;
 
-    const offset = 12 * (currentPage - 1);
+    if (currentPage === -1) {
+      // Lấy hết dữ liệu
+      guests = await guestModel.find().sort({ createdAt: -1 });
+      count = guests.length;
+    } else {
+      count = await guestModel.countDocuments();
+      const offset = 12 * (currentPage - 1);
 
-    const guest = await guestModel
-      .find()
-      .limit(12)
-      .skip(offset)
-      .sort({ createdAt: -1 });
+      guests = await guestModel
+        .find()
+        .limit(12)
+        .skip(offset)
+        .sort({ createdAt: -1 });
+    }
 
-    if (!guest || guest.length === 0) {
+    if (!guests || guests.length === 0) {
       throw {
         code: 1,
         message: "Không có data nào",
@@ -221,9 +229,9 @@ let viewListGuest = async (req, res) => {
 
     res.status(200).json({
       code: 0,
-      message: "Lấy dự liệu thành công",
+      message: "Lấy dữ liệu thành công",
       count: count,
-      data: guest,
+      data: guests,
     });
   } catch (error) {
     res.status(200).json({

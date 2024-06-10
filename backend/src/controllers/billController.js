@@ -4,19 +4,27 @@ const staffModel = require("../models/staffModel");
 
 let viewListBill = async (req, res) => {
   try {
-    const currentPage = req.params.currentPage || 1;
+    const currentPage = parseInt(req.params.currentPage) || 1;
 
-    const count = await billModel.countDocuments();
+    let bills;
+    let count;
 
-    const offset = 12 * (currentPage - 1);
+    if (currentPage === -1) {
+      // Lấy hết dữ liệu
+      bills = await billModel.find().sort({ createdAt: -1 });
+      count = bills.length;
+    } else {
+      count = await billModel.countDocuments();
+      const offset = 12 * (currentPage - 1);
 
-    const bill = await billModel
-      .find()
-      .limit(12)
-      .skip(offset)
-      .sort({ createdAt: -1 });
+      bills = await billModel
+        .find()
+        .limit(12)
+        .skip(offset)
+        .sort({ createdAt: -1 });
+    }
 
-    if (!bill || bill.length === 0) {
+    if (!bills || bills.length === 0) {
       throw {
         code: 1,
         message: "Không có data nào",
@@ -25,9 +33,9 @@ let viewListBill = async (req, res) => {
 
     res.status(200).json({
       code: 0,
-      message: "Lấy dự liệu thành công",
+      message: "Lấy dữ liệu thành công",
       count: count,
-      data: bill,
+      data: bills,
     });
   } catch (error) {
     res.status(200).json({

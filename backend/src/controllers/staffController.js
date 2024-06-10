@@ -27,7 +27,10 @@ let login = async (req, res) => {
         message: "Tài khoản hoặc mật khẩu không chính xác",
       };
     }
-
+    console.log(password);
+    console.log(staff.password);
+    hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
     const isPasswordValid = await bcrypt.compare(password, staff.password);
 
     if (!isPasswordValid) {
@@ -275,6 +278,7 @@ let edit = async (req, res) => {
       IDnumber: data.IDnumber,
       _id: { $ne: id },
     });
+
     if (existingStaffWithID) {
       throw {
         code: 1,
@@ -338,17 +342,25 @@ let edit = async (req, res) => {
 
 let viewListStaff = async (req, res) => {
   try {
-    const currentPage = req.params.currentPage || 1;
+    const currentPage = parseInt(req.params.currentPage) || 1;
 
-    const count = await staffModel.countDocuments();
+    let staffs;
+    let count;
 
-    const offset = 12 * (currentPage - 1);
+    if (currentPage === -1) {
+      // Lấy hết dữ liệu
+      staffs = await staffModel.find().sort({ createdAt: -1 });
+      count = staffs.length;
+    } else {
+      count = await staffModel.countDocuments();
+      const offset = 12 * (currentPage - 1);
 
-    const staffs = await staffModel
-      .find()
-      .limit(12)
-      .skip(offset)
-      .sort({ createdAt: -1 });
+      staffs = await staffModel
+        .find()
+        .limit(12)
+        .skip(offset)
+        .sort({ createdAt: -1 });
+    }
 
     if (!staffs || staffs.length === 0) {
       throw {
@@ -359,14 +371,14 @@ let viewListStaff = async (req, res) => {
 
     res.status(200).json({
       code: 0,
-      message: "Tìm kiếm thành công",
+      message: "Lấy dữ liệu thành công",
       count: count,
       data: staffs,
     });
   } catch (error) {
     res.status(200).json({
       code: error.code || 1,
-      message: error.message || "Lỗi:viewListStaff ",
+      message: error.message || "Lỗi: viewListStaff",
     });
   }
 };

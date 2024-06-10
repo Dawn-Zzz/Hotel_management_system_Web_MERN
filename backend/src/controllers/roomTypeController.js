@@ -121,19 +121,27 @@ let deleteRoomType = async (req, res) => {
 
 let viewListRoomType = async (req, res) => {
   try {
-    const currentPage = req.params.currentPage || 1;
+    const currentPage = parseInt(req.params.currentPage) || 1;
 
-    const count = await roomtypeModel.countDocuments();
+    let roomTypes;
+    let count;
 
-    const offset = 12 * (currentPage - 1);
+    if (currentPage === -1) {
+      // Lấy hết dữ liệu
+      roomTypes = await roomtypeModel.find().sort({ createdAt: -1 });
+      count = roomTypes.length;
+    } else {
+      count = await roomtypeModel.countDocuments();
+      const offset = 12 * (currentPage - 1);
 
-    const roomType = await roomtypeModel
-      .find()
-      .limit(12)
-      .skip(offset)
-      .sort({ createdAt: -1 });
+      roomTypes = await roomtypeModel
+        .find()
+        .limit(12)
+        .skip(offset)
+        .sort({ createdAt: -1 });
+    }
 
-    if (!roomType || roomType.length === 0) {
+    if (!roomTypes || roomTypes.length === 0) {
       throw {
         code: 1,
         message: "Không có data nào",
@@ -144,12 +152,12 @@ let viewListRoomType = async (req, res) => {
       code: 0,
       message: "Lấy dữ liệu thành công",
       count: count,
-      data: roomType,
+      data: roomTypes,
     });
   } catch (error) {
     res.status(200).json({
       code: error.code || 1,
-      message: error.message || "Lỗi: viewListRoomType ",
+      message: error.message || "Lỗi: viewListRoomType",
     });
   }
 };

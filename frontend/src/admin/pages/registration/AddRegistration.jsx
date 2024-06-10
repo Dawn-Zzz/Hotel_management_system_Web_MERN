@@ -76,7 +76,7 @@ const AddRegistration = () => {
   };
   const getRoomTypes = async () => {
     try {
-      const data = await viewListRoomType(1);
+      const data = await viewListRoomType(-1);
       console.log(data);
       if (data?.code === 0) {
         setRoomTypes(data?.data);

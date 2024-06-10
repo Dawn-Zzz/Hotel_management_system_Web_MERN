@@ -17,7 +17,7 @@ const Invoice = () => {
   const getGuest = async () => {
     try {
       setIsLoading(true);
-      const data = await viewListGuest(1);
+      const data = await viewListGuest(-1);
       if (data?.code === 0) {
         setGuests(data?.data);
       } else {
@@ -33,7 +33,7 @@ const Invoice = () => {
   const getStaff = async () => {
     try {
       setIsLoading(true);
-      const data = await viewListStaff(1);
+      const data = await viewListStaff(-1);
       if (data?.code === 0) {
         setStaffs(data?.data);
       } else {

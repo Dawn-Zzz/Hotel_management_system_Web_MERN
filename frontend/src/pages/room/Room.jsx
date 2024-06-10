@@ -29,7 +29,7 @@ const Room = () => {
   const getRoomTypes = async () => {
     try {
       setIsLoading(true);
-      const data = await viewListRoomType(1);
+      const data = await viewListRoomType(-1);
       console.log(data);
       if (data?.code === 0) {
         setRoomType(data?.data);
