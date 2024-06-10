@@ -47,7 +47,6 @@ const Registration = () => {
       }
       if (searchData?.code === 0) {
         setRegistrations(searchData?.data);
-        setTotalPages(Math.ceil(searchData?.count / 12));
       } else {
         setRegistrations([]);
       }
@@ -78,9 +77,9 @@ const Registration = () => {
       (registration) => registration.roomInteraction === filter
     );
     setFilteredRegistrations(filtered);
+    console.log(filtered.length);
+    setTotalPages(Math.ceil(filtered.length / 12));
   }, [registrations, filter]);
-
-  console.log(filteredRegistrations);
 
   return isLoading ? (
     <Loading />

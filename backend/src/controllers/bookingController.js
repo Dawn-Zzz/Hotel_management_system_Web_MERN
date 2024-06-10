@@ -332,7 +332,7 @@ let viewListBooking = async (req, res) => {
 
       bookings = await bookingModel
         .find()
-        .limit(12)
+        .limit(100)
         .skip(offset)
         .sort({ createdAt: -1 });
     }
