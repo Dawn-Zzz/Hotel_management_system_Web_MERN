@@ -6,6 +6,8 @@ const bookingModel = require("../models/bookingModel");
 const roomBookingModel = require("../models/roomBookingModel");
 const roomModel = require("../models/roomModel");
 
+const URL_FRONTEND = process.env.URL_FRONTEND;
+
 const accessKey = "F8BBA842ECF85";
 const secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
 
@@ -13,9 +15,9 @@ let payment = async (req, res) => {
     const { amount, bookingInfo } = req.body;
     const orderInfo = "Hotel Payment With Momo";
     const partnerCode = "MOMO";
-    const redirectUrl = "http://localhost:3000";
+    const redirectUrl = URL_FRONTEND;
     const ipnUrl =
-        "https://8d85-171-250-188-49.ngrok-free.app/api/payment/callback";
+        "https://6f73-2402-800-63b9-c02c-3946-5595-df01-770a.ngrok-free.app/api/payment/callback";
     const requestType = "payWithMethod";
     const orderId = partnerCode + new Date().getTime();
     const requestId = orderId;
