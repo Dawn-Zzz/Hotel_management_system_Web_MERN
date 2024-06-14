@@ -99,7 +99,7 @@ const Search = () => {
                     ) : registrations.length != 0 ? (
                         <table className="w-full text-left mt-6">
                             <thead>
-                                <tr className="border bg-gray-100">
+                                <tr className="border bg-gray-200">
                                     <th className="text-gray-600 font-medium py-4 pl-6">
                                         Guest Name
                                     </th>
@@ -122,7 +122,7 @@ const Search = () => {
                                 {registrations.map((registration) => {
                                     return (
                                         <tr
-                                            className="border"
+                                            className="border hover:bg-gray-100"
                                             key={registration._id}
                                         >
                                             <td className="py-4 text-gray-500 pl-6 font-semibold">

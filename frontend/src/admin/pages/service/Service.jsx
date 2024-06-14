@@ -85,7 +85,7 @@ const Service = () => {
                     </button>
                 </div>
                 <table className=" rounded-lg text-left m-4 mt-0 bg-white overflow-hidden">
-                    <tr className="border bg-gray-100 rounded-lg overflow-hidden">
+                    <tr className="border bg-gray-200 rounded-lg overflow-hidden">
                         <th className="text-gray-600 font-medium py-4 pl-4">
                             Service Name
                         </th>
@@ -97,7 +97,10 @@ const Service = () => {
                         </th>
                     </tr>
                     {data.map((service) => (
-                        <tr key={service._id} className="border">
+                        <tr
+                            key={service._id}
+                            className="border hover:bg-gray-100"
+                        >
                             <td className="py-4 text-gray-500 pl-4">
                                 {service.name}
                             </td>

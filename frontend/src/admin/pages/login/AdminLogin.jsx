@@ -14,7 +14,7 @@ const AdminLogin = () => {
         e.preventDefault();
         dispatch(handleLogin(username, password, nav));
     };
-        return (
+    return (
         <div className="h-screen w-screen bg-slate-200 flex justify-center items-center">
             <div className="border border-gray-200 rounded-2xl p-8 bg-slate-100 shadow-2xl">
                 <h1 className="text-3xl font-semibold text-center text-gray-600">
@@ -48,7 +48,7 @@ const AdminLogin = () => {
                         />
                     </div>
                     <div>
-                        <button 
+                        <button
                             type="submit"
                             className="btn btn-block bg-indigo-700 btn-sm mt-2 hover:bg-indigo-400 text-white"
                             onClick={onclickLogin}

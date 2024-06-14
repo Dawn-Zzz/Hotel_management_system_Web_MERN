@@ -123,7 +123,7 @@ const Invoice = () => {
                 </div>
                 <table className="rounded-lg text-left m-4 mt-0 bg-white overflow-hidden">
                     <thead>
-                        <tr className="border bg-gray-100 rounded-lg overflow-hidden">
+                        <tr className="border bg-gray-200 rounded-lg overflow-hidden">
                             <th className="text-gray-600 font-medium py-4 pl-4">
                                 Guest Name
                             </th>
@@ -150,7 +150,10 @@ const Invoice = () => {
                                 (s) => s._id === bill.staff
                             );
                             return (
-                                <tr className="border" key={bill._id}>
+                                <tr
+                                    className="border hover:bg-gray-100"
+                                    key={bill._id}
+                                >
                                     <td className="py-4 text-gray-500 pl-4">
                                         {guest?.name}
                                     </td>
