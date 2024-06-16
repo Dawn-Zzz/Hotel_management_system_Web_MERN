@@ -66,11 +66,21 @@ const Rooms = () => {
                     </Link>
                 </div>
             </div>
-            <div className="mt-4 flex flex-wrap">
+            <div className="flex w-1/4 mt-4">
+                <input
+                    type="text"
+                    className="border-2 outline-none px-4 py-2 w-full rounded-s-lg"
+                    placeholder="Input name of room type"
+                />
+                <button className="border-2 border-l-0 bg-white hover:bg-gray-50 outline-none px-4 rounded-e-lg">
+                    <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
+                </button>
+            </div>
+            <div className="mt-2 flex flex-wrap">
                 {data.map((room) => (
                     <div
                         key={room._id}
-                        className={`w-[24%] mt-4 bg-white rounded-lg border-l-4 mr-2 ${
+                        className={`w-[24%] mt-4 bg-white rounded-lg border-l-4 mr-2 shadow-md ${
                             room.isFree ? "border-[#1cc88a]" : "border-red-600"
                         }`}
                     >
@@ -89,16 +99,26 @@ const Rooms = () => {
                                     {room.roomNumber}
                                 </p>
                             </div>
-                            <div className="flex justify-end">
+                            <div className="flex justify-end mt-2 -mr-2 -mb-2">
+                                <Link
+                                    to={`/admin/rooms/edit/${room._id}`}
+                                    className={` py-2 px-6 rounded-lg font-semibold ${
+                                        room.isFree
+                                            ? "text-[#1cc88a]"
+                                            : "text-red-600"
+                                    }`}
+                                >
+                                    Edit
+                                </Link>
                                 <Link
                                     to={`/admin/rooms/${room._id}`}
-                                    className={`text-white py-2 px-6 rounded-full ${
+                                    className={`text-white py-2 px-6 rounded-lg ${
                                         room.isFree
                                             ? "bg-[#1cc88a]"
                                             : "bg-red-600"
                                     }`}
                                 >
-                                    Details
+                                    Detail
                                 </Link>
                             </div>
                         </div>

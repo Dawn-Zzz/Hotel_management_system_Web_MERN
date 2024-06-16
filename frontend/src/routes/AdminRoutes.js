@@ -16,6 +16,7 @@ import EditRoomType from "../admin/pages/room/roomType/EditRoomType";
 import RoomType from "../admin/pages/room/roomType/RoomType";
 import RoomTypeDetail from "../admin/pages/room/roomType/RoomTypeDetail";
 import AddRoom from "../admin/pages/room/rooms/AddRoom";
+import EditRoom from "../admin/pages/room/rooms/EditRoom";
 import RoomDetail from "../admin/pages/room/rooms/RoomDetail";
 import Rooms from "../admin/pages/room/rooms/Rooms";
 import AddService from "../admin/pages/service/AddService";
@@ -38,6 +39,7 @@ const publicAdminRoutes = [
     { path: "/admin/rooms", component: Rooms },
     { path: "/admin/rooms/:id", component: RoomDetail },
     { path: "/admin/rooms/create", component: AddRoom },
+    { path: "/admin/rooms/edit/:id", component: EditRoom },
     //RoomType
     { path: "/admin/roomtype", component: RoomType },
     { path: "/admin/roomtype/:id", component: RoomTypeDetail },
