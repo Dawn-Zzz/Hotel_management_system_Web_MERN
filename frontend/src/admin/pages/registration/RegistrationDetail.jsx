@@ -238,12 +238,12 @@ const RegistrationDetail = () => {
                         <p className="text-gray-500">No services booked</p>
                     )}
                 </div>
-                <div className="flex flex-col">
+                <div className="flex">
                     <Link
                         to="/admin/registration"
-                        className="rounded-lg bg-indigo-600 text-white px-4 py-2 mt-4 w-20 text-center"
+                        className="rounded-lg text-red-600 py-2 mt-4 w-32"
                     >
-                        Ok
+                        Back to list
                     </Link>
                 </div>
             </div>

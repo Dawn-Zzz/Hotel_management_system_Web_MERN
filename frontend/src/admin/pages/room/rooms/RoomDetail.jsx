@@ -47,12 +47,12 @@ const RoomDetail = () => {
                     <p className="font-semibold mr-4">Room Category: </p>
                     <p className="text-gray-500">{roomType}</p>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex">
                     <Link
                         to="/admin/rooms"
-                        className="rounded-lg bg-indigo-600 text-white px-4 py-2 mt-4 w-20 text-center"
+                        className="rounded-lg text-red-600 py-2 mt-4 w-32"
                     >
-                        Ok
+                        Back to list
                     </Link>
                 </div>
             </div>
