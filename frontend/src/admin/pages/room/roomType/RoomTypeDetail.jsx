@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Loading from "../../../../components/loading/Loading";
 import { Link, useParams } from "react-router-dom";
 import { viewRoomtype } from "../../../../service/roomTypeService";
+import formatNumber from "../../../../utils/formatNumber";
 
 const RoomTypeDetail = () => {
     const { id } = useParams();
@@ -50,7 +51,9 @@ const RoomTypeDetail = () => {
                     </div>
                     <div className="flex py-3 border-b">
                         <p className="font-semibold mr-4">Room Rates: </p>
-                        <p className="text-gray-500">{data.price}</p>
+                        <p className="text-gray-500">
+                            {data.price ? formatNumber(data.price) : ""} VND
+                        </p>
                     </div>
                 </div>
             </div>

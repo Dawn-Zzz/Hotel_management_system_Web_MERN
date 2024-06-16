@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Loading from "../../../components/loading/Loading";
 import { Link, useParams } from "react-router-dom";
 import { viewService } from "../../../service/serviceService";
+import formatNumber from "../../../utils/formatNumber";
 
 const ServiceDetail = () => {
     const { id } = useParams();
@@ -40,7 +41,9 @@ const ServiceDetail = () => {
                 </div>
                 <div className="flex py-3 border-b">
                     <p className="font-semibold mr-4">Service Price: </p>
-                    <p className="text-gray-500">{data.price} VND</p>
+                    <p className="text-gray-500">
+                        {data.price ? formatNumber(data.price) : ""} VND
+                    </p>
                 </div>
                 <div className="flex flex-col">
                     <Link

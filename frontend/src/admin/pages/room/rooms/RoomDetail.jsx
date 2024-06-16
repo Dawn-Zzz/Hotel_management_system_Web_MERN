@@ -30,6 +30,7 @@ const RoomDetail = () => {
             console.error(error);
         }
     };
+    console.log(data);
     return isLoading ? (
         <Loading />
     ) : (

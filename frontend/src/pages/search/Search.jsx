@@ -64,7 +64,7 @@ const Search = () => {
             <Banner title="Search" des="FINDING YOUR REGISTRATION FORM" />
             <div className="flex flex-col items-center my-24 w-3/4">
                 <p className="text-[52px] font-serif font-semibold">
-                    Registration
+                    Booking History
                 </p>
                 <div className="w-full">
                     <form

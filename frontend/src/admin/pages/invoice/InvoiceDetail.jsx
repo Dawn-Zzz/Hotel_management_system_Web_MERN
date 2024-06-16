@@ -66,13 +66,17 @@ const InvoiceDetail = () => {
                 <div className="flex py-3 border-b">
                     <p className="font-semibold mr-4">Room Charge: </p>
                     <p className="text-gray-500">
-                        {formatNumber(bill.roomCharge)} VND
+                        {bill.roomCharge ? formatNumber(bill.roomCharge) : ""}{" "}
+                        VND
                     </p>
                 </div>
                 <div className="flex py-3 border-b">
                     <p className="font-semibold mr-4">Service Charge: </p>
                     <p className="text-gray-500">
-                        {formatNumber(bill.serviceCharge)} VND
+                        {bill.serviceCharge
+                            ? formatNumber(bill.serviceCharge)
+                            : ""}{" "}
+                        VND
                     </p>
                 </div>
                 {guest.guestCategories === "Vip" && bill.discount && (
@@ -80,16 +84,21 @@ const InvoiceDetail = () => {
                         <div className="flex py-3 border-b">
                             <p className="font-semibold mr-4">Subtotal: </p>
                             <p className="text-gray-500">
-                                {formatNumber(
-                                    bill.roomCharge + bill.serviceCharge
-                                )}{" "}
+                                {bill.roomCharge + bill.serviceCharge
+                                    ? formatNumber(
+                                          bill.roomCharge + bill.serviceCharge
+                                      )
+                                    : ""}{" "}
                                 VND
                             </p>
                         </div>
                         <div className="flex py-3 border-b">
                             <p className="font-semibold mr-4">Discount: </p>
                             <p className="text-gray-500">
-                                {formatNumber(bill.discount)} VND
+                                {bill.discount
+                                    ? formatNumber(bill.discount)
+                                    : ""}{" "}
+                                VND
                             </p>
                         </div>
                     </>
@@ -97,7 +106,8 @@ const InvoiceDetail = () => {
                 <div className="flex py-3 border-b">
                     <p className="font-semibold mr-4">Total Amount: </p>
                     <p className="text-gray-500">
-                        {formatNumber(calculateTotal())} VND
+                        {calculateTotal() ? formatNumber(calculateTotal()) : ""}{" "}
+                        VND
                     </p>
                 </div>
                 <div className="flex flex-col">
